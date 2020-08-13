@@ -1,14 +1,5 @@
 # CHANGELOG
 
-## `v45.1.1`
-
-### New Packages
-
-| Package Name | API Version |
-| -----------: | :---------: |
-| mysql | 2020-07-01-privatepreview |
-| postgresql | 2020-02-14-privatepreview |
-
 ## `v45.1.0`
 
 ### New Packages
