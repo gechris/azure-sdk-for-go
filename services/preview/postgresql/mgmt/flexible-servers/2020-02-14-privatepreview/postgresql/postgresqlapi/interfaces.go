@@ -18,62 +18,68 @@ package postgresqlapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-    "context"
-    "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt/flexible-servers/2020-02-14-privatepreview/postgresql"
+	"context"
+
+	"github.com/gechris/azure-sdk-for-go/services/preview/postgresql/mgmt/flexible-servers/2020-02-14-privatepreview/postgresql"
 )
 
-        // ServersClientAPI contains the set of methods on the ServersClient type.
-        type ServersClientAPI interface {
-            Create(ctx context.Context, resourceGroupName string, serverName string, parameters postgresql.Server) (result postgresql.ServersCreateFuture, err error)
-            Delete(ctx context.Context, resourceGroupName string, serverName string) (result postgresql.ServersDeleteFuture, err error)
-            Get(ctx context.Context, resourceGroupName string, serverName string) (result postgresql.Server, err error)
-            List(ctx context.Context) (result postgresql.ServerListResultPage, err error)
-                ListComplete(ctx context.Context) (result postgresql.ServerListResultIterator, err error)
-            ListByResourceGroup(ctx context.Context, resourceGroupName string) (result postgresql.ServerListResultPage, err error)
-                ListByResourceGroupComplete(ctx context.Context, resourceGroupName string) (result postgresql.ServerListResultIterator, err error)
-            Restart(ctx context.Context, resourceGroupName string, serverName string) (result postgresql.ServersRestartFuture, err error)
-            Start(ctx context.Context, resourceGroupName string, serverName string) (result postgresql.ServersStartFuture, err error)
-            Stop(ctx context.Context, resourceGroupName string, serverName string) (result postgresql.ServersStopFuture, err error)
-            Update(ctx context.Context, resourceGroupName string, serverName string, parameters postgresql.ServerForUpdate) (result postgresql.ServersUpdateFuture, err error)
-        }
+// ServersClientAPI contains the set of methods on the ServersClient type.
+type ServersClientAPI interface {
+	Create(ctx context.Context, resourceGroupName string, serverName string, parameters postgresql.Server) (result postgresql.ServersCreateFuture, err error)
+	Delete(ctx context.Context, resourceGroupName string, serverName string) (result postgresql.ServersDeleteFuture, err error)
+	Get(ctx context.Context, resourceGroupName string, serverName string) (result postgresql.Server, err error)
+	List(ctx context.Context) (result postgresql.ServerListResultPage, err error)
+	ListComplete(ctx context.Context) (result postgresql.ServerListResultIterator, err error)
+	ListByResourceGroup(ctx context.Context, resourceGroupName string) (result postgresql.ServerListResultPage, err error)
+	ListByResourceGroupComplete(ctx context.Context, resourceGroupName string) (result postgresql.ServerListResultIterator, err error)
+	Restart(ctx context.Context, resourceGroupName string, serverName string) (result postgresql.ServersRestartFuture, err error)
+	Start(ctx context.Context, resourceGroupName string, serverName string) (result postgresql.ServersStartFuture, err error)
+	Stop(ctx context.Context, resourceGroupName string, serverName string) (result postgresql.ServersStopFuture, err error)
+	Update(ctx context.Context, resourceGroupName string, serverName string, parameters postgresql.ServerForUpdate) (result postgresql.ServersUpdateFuture, err error)
+}
 
-        var _ ServersClientAPI = (*postgresql.ServersClient)(nil)
-        // FirewallRulesClientAPI contains the set of methods on the FirewallRulesClient type.
-        type FirewallRulesClientAPI interface {
-            CreateOrUpdate(ctx context.Context, resourceGroupName string, serverName string, firewallRuleName string, parameters postgresql.FirewallRule) (result postgresql.FirewallRulesCreateOrUpdateFuture, err error)
-            Delete(ctx context.Context, resourceGroupName string, serverName string, firewallRuleName string) (result postgresql.FirewallRulesDeleteFuture, err error)
-            Get(ctx context.Context, resourceGroupName string, serverName string, firewallRuleName string) (result postgresql.FirewallRule, err error)
-            ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result postgresql.FirewallRuleListResultPage, err error)
-                ListByServerComplete(ctx context.Context, resourceGroupName string, serverName string) (result postgresql.FirewallRuleListResultIterator, err error)
-        }
+var _ ServersClientAPI = (*postgresql.ServersClient)(nil)
 
-        var _ FirewallRulesClientAPI = (*postgresql.FirewallRulesClient)(nil)
-        // ConfigurationsClientAPI contains the set of methods on the ConfigurationsClient type.
-        type ConfigurationsClientAPI interface {
-            Get(ctx context.Context, resourceGroupName string, serverName string, configurationName string) (result postgresql.Configuration, err error)
-            ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result postgresql.ConfigurationListResultPage, err error)
-                ListByServerComplete(ctx context.Context, resourceGroupName string, serverName string) (result postgresql.ConfigurationListResultIterator, err error)
-        }
+// FirewallRulesClientAPI contains the set of methods on the FirewallRulesClient type.
+type FirewallRulesClientAPI interface {
+	CreateOrUpdate(ctx context.Context, resourceGroupName string, serverName string, firewallRuleName string, parameters postgresql.FirewallRule) (result postgresql.FirewallRulesCreateOrUpdateFuture, err error)
+	Delete(ctx context.Context, resourceGroupName string, serverName string, firewallRuleName string) (result postgresql.FirewallRulesDeleteFuture, err error)
+	Get(ctx context.Context, resourceGroupName string, serverName string, firewallRuleName string) (result postgresql.FirewallRule, err error)
+	ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result postgresql.FirewallRuleListResultPage, err error)
+	ListByServerComplete(ctx context.Context, resourceGroupName string, serverName string) (result postgresql.FirewallRuleListResultIterator, err error)
+}
 
-        var _ ConfigurationsClientAPI = (*postgresql.ConfigurationsClient)(nil)
-        // CustomerMaintenanceWindowClientAPI contains the set of methods on the CustomerMaintenanceWindowClient type.
-        type CustomerMaintenanceWindowClientAPI interface {
-            CreateOrUpdate(ctx context.Context, resourceGroupName string, serverName string, maintenanceWindowName string, parameters postgresql.CustomerMaintenanceWindow) (result postgresql.CustomerMaintenanceWindowCreateOrUpdateFuture, err error)
-            Delete(ctx context.Context, resourceGroupName string, serverName string, maintenanceWindowName string) (result postgresql.CustomerMaintenanceWindowDeleteFuture, err error)
-            Get(ctx context.Context, resourceGroupName string, serverName string, maintenanceWindowName string) (result postgresql.CustomerMaintenanceWindow, err error)
-            ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result postgresql.CustomerMaintenanceWindowListResult, err error)
-        }
+var _ FirewallRulesClientAPI = (*postgresql.FirewallRulesClient)(nil)
 
-        var _ CustomerMaintenanceWindowClientAPI = (*postgresql.CustomerMaintenanceWindowClient)(nil)
-        // CheckNameAvailabilityClientAPI contains the set of methods on the CheckNameAvailabilityClient type.
-        type CheckNameAvailabilityClientAPI interface {
-            Execute(ctx context.Context, nameAvailabilityRequest postgresql.NameAvailabilityRequest) (result postgresql.NameAvailability, err error)
-        }
+// ConfigurationsClientAPI contains the set of methods on the ConfigurationsClient type.
+type ConfigurationsClientAPI interface {
+	Get(ctx context.Context, resourceGroupName string, serverName string, configurationName string) (result postgresql.Configuration, err error)
+	ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result postgresql.ConfigurationListResultPage, err error)
+	ListByServerComplete(ctx context.Context, resourceGroupName string, serverName string) (result postgresql.ConfigurationListResultIterator, err error)
+}
 
-        var _ CheckNameAvailabilityClientAPI = (*postgresql.CheckNameAvailabilityClient)(nil)
-        // OperationsClientAPI contains the set of methods on the OperationsClient type.
-        type OperationsClientAPI interface {
-            List(ctx context.Context) (result postgresql.OperationListResult, err error)
-        }
+var _ ConfigurationsClientAPI = (*postgresql.ConfigurationsClient)(nil)
 
-        var _ OperationsClientAPI = (*postgresql.OperationsClient)(nil)
+// CustomerMaintenanceWindowClientAPI contains the set of methods on the CustomerMaintenanceWindowClient type.
+type CustomerMaintenanceWindowClientAPI interface {
+	CreateOrUpdate(ctx context.Context, resourceGroupName string, serverName string, maintenanceWindowName string, parameters postgresql.CustomerMaintenanceWindow) (result postgresql.CustomerMaintenanceWindowCreateOrUpdateFuture, err error)
+	Delete(ctx context.Context, resourceGroupName string, serverName string, maintenanceWindowName string) (result postgresql.CustomerMaintenanceWindowDeleteFuture, err error)
+	Get(ctx context.Context, resourceGroupName string, serverName string, maintenanceWindowName string) (result postgresql.CustomerMaintenanceWindow, err error)
+	ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result postgresql.CustomerMaintenanceWindowListResult, err error)
+}
+
+var _ CustomerMaintenanceWindowClientAPI = (*postgresql.CustomerMaintenanceWindowClient)(nil)
+
+// CheckNameAvailabilityClientAPI contains the set of methods on the CheckNameAvailabilityClient type.
+type CheckNameAvailabilityClientAPI interface {
+	Execute(ctx context.Context, nameAvailabilityRequest postgresql.NameAvailabilityRequest) (result postgresql.NameAvailability, err error)
+}
+
+var _ CheckNameAvailabilityClientAPI = (*postgresql.CheckNameAvailabilityClient)(nil)
+
+// OperationsClientAPI contains the set of methods on the OperationsClient type.
+type OperationsClientAPI interface {
+	List(ctx context.Context) (result postgresql.OperationListResult, err error)
+}
+
+var _ OperationsClientAPI = (*postgresql.OperationsClient)(nil)

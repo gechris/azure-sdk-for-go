@@ -18,81 +18,89 @@ package mysqlapi
 // Changes may cause incorrect behavior and will be lost if the code is regenerated.
 
 import (
-    "context"
-    "github.com/Azure/azure-sdk-for-go/services/preview/mysql/mgmt/flexible-servers/2020-07-01-privatepreview/mysql"
+	"context"
+
+	"github.com/gechris/azure-sdk-for-go/services/preview/mysql/mgmt/flexible-servers/2020-07-01-privatepreview/mysql"
 )
 
-        // ServersClientAPI contains the set of methods on the ServersClient type.
-        type ServersClientAPI interface {
-            Create(ctx context.Context, resourceGroupName string, serverName string, parameters mysql.Server) (result mysql.ServersCreateFuture, err error)
-            Delete(ctx context.Context, resourceGroupName string, serverName string) (result mysql.ServersDeleteFuture, err error)
-            Get(ctx context.Context, resourceGroupName string, serverName string) (result mysql.Server, err error)
-            List(ctx context.Context) (result mysql.ServerListResultPage, err error)
-                ListComplete(ctx context.Context) (result mysql.ServerListResultIterator, err error)
-            ListByResourceGroup(ctx context.Context, resourceGroupName string) (result mysql.ServerListResultPage, err error)
-                ListByResourceGroupComplete(ctx context.Context, resourceGroupName string) (result mysql.ServerListResultIterator, err error)
-            Restart(ctx context.Context, resourceGroupName string, serverName string) (result mysql.ServersRestartFuture, err error)
-            Start(ctx context.Context, resourceGroupName string, serverName string) (result mysql.ServersStartFuture, err error)
-            Stop(ctx context.Context, resourceGroupName string, serverName string) (result mysql.ServersStopFuture, err error)
-            Update(ctx context.Context, resourceGroupName string, serverName string, parameters mysql.ServerForUpdate) (result mysql.ServersUpdateFuture, err error)
-        }
+// ServersClientAPI contains the set of methods on the ServersClient type.
+type ServersClientAPI interface {
+	Create(ctx context.Context, resourceGroupName string, serverName string, parameters mysql.Server) (result mysql.ServersCreateFuture, err error)
+	Delete(ctx context.Context, resourceGroupName string, serverName string) (result mysql.ServersDeleteFuture, err error)
+	Get(ctx context.Context, resourceGroupName string, serverName string) (result mysql.Server, err error)
+	List(ctx context.Context) (result mysql.ServerListResultPage, err error)
+	ListComplete(ctx context.Context) (result mysql.ServerListResultIterator, err error)
+	ListByResourceGroup(ctx context.Context, resourceGroupName string) (result mysql.ServerListResultPage, err error)
+	ListByResourceGroupComplete(ctx context.Context, resourceGroupName string) (result mysql.ServerListResultIterator, err error)
+	Restart(ctx context.Context, resourceGroupName string, serverName string) (result mysql.ServersRestartFuture, err error)
+	Start(ctx context.Context, resourceGroupName string, serverName string) (result mysql.ServersStartFuture, err error)
+	Stop(ctx context.Context, resourceGroupName string, serverName string) (result mysql.ServersStopFuture, err error)
+	Update(ctx context.Context, resourceGroupName string, serverName string, parameters mysql.ServerForUpdate) (result mysql.ServersUpdateFuture, err error)
+}
 
-        var _ ServersClientAPI = (*mysql.ServersClient)(nil)
-        // ReplicasClientAPI contains the set of methods on the ReplicasClient type.
-        type ReplicasClientAPI interface {
-            ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result mysql.ServerListResultPage, err error)
-                ListByServerComplete(ctx context.Context, resourceGroupName string, serverName string) (result mysql.ServerListResultIterator, err error)
-        }
+var _ ServersClientAPI = (*mysql.ServersClient)(nil)
 
-        var _ ReplicasClientAPI = (*mysql.ReplicasClient)(nil)
-        // FirewallRulesClientAPI contains the set of methods on the FirewallRulesClient type.
-        type FirewallRulesClientAPI interface {
-            CreateOrUpdate(ctx context.Context, resourceGroupName string, serverName string, firewallRuleName string, parameters mysql.FirewallRule) (result mysql.FirewallRulesCreateOrUpdateFuture, err error)
-            Delete(ctx context.Context, resourceGroupName string, serverName string, firewallRuleName string) (result mysql.FirewallRulesDeleteFuture, err error)
-            Get(ctx context.Context, resourceGroupName string, serverName string, firewallRuleName string) (result mysql.FirewallRule, err error)
-            ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result mysql.FirewallRuleListResultPage, err error)
-                ListByServerComplete(ctx context.Context, resourceGroupName string, serverName string) (result mysql.FirewallRuleListResultIterator, err error)
-        }
+// ReplicasClientAPI contains the set of methods on the ReplicasClient type.
+type ReplicasClientAPI interface {
+	ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result mysql.ServerListResultPage, err error)
+	ListByServerComplete(ctx context.Context, resourceGroupName string, serverName string) (result mysql.ServerListResultIterator, err error)
+}
 
-        var _ FirewallRulesClientAPI = (*mysql.FirewallRulesClient)(nil)
-        // DatabasesClientAPI contains the set of methods on the DatabasesClient type.
-        type DatabasesClientAPI interface {
-            CreateOrUpdate(ctx context.Context, resourceGroupName string, serverName string, databaseName string, parameters mysql.Database) (result mysql.DatabasesCreateOrUpdateFuture, err error)
-            Delete(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (result mysql.DatabasesDeleteFuture, err error)
-            Get(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (result mysql.Database, err error)
-            ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result mysql.DatabaseListResultPage, err error)
-                ListByServerComplete(ctx context.Context, resourceGroupName string, serverName string) (result mysql.DatabaseListResultIterator, err error)
-        }
+var _ ReplicasClientAPI = (*mysql.ReplicasClient)(nil)
 
-        var _ DatabasesClientAPI = (*mysql.DatabasesClient)(nil)
-        // ConfigurationsClientAPI contains the set of methods on the ConfigurationsClient type.
-        type ConfigurationsClientAPI interface {
-            Get(ctx context.Context, resourceGroupName string, serverName string, configurationName string) (result mysql.Configuration, err error)
-            ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result mysql.ConfigurationListResultPage, err error)
-                ListByServerComplete(ctx context.Context, resourceGroupName string, serverName string) (result mysql.ConfigurationListResultIterator, err error)
-            Update(ctx context.Context, resourceGroupName string, serverName string, configurationName string, parameters mysql.Configuration) (result mysql.ConfigurationsUpdateFuture, err error)
-        }
+// FirewallRulesClientAPI contains the set of methods on the FirewallRulesClient type.
+type FirewallRulesClientAPI interface {
+	CreateOrUpdate(ctx context.Context, resourceGroupName string, serverName string, firewallRuleName string, parameters mysql.FirewallRule) (result mysql.FirewallRulesCreateOrUpdateFuture, err error)
+	Delete(ctx context.Context, resourceGroupName string, serverName string, firewallRuleName string) (result mysql.FirewallRulesDeleteFuture, err error)
+	Get(ctx context.Context, resourceGroupName string, serverName string, firewallRuleName string) (result mysql.FirewallRule, err error)
+	ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result mysql.FirewallRuleListResultPage, err error)
+	ListByServerComplete(ctx context.Context, resourceGroupName string, serverName string) (result mysql.FirewallRuleListResultIterator, err error)
+}
 
-        var _ ConfigurationsClientAPI = (*mysql.ConfigurationsClient)(nil)
-        // MaintenanceWindowsClientAPI contains the set of methods on the MaintenanceWindowsClient type.
-        type MaintenanceWindowsClientAPI interface {
-            CreateOrUpdate(ctx context.Context, resourceGroupName string, serverName string, maintenanceWindowName string, parameters mysql.MaintenanceWindow) (result mysql.MaintenanceWindowsCreateOrUpdateFuture, err error)
-            Delete(ctx context.Context, resourceGroupName string, serverName string, maintenanceWindowName string) (result mysql.MaintenanceWindowsDeleteFuture, err error)
-            Get(ctx context.Context, resourceGroupName string, serverName string, maintenanceWindowName string) (result mysql.MaintenanceWindow, err error)
-            ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result mysql.MaintenanceWindowListResultPage, err error)
-                ListByServerComplete(ctx context.Context, resourceGroupName string, serverName string) (result mysql.MaintenanceWindowListResultIterator, err error)
-        }
+var _ FirewallRulesClientAPI = (*mysql.FirewallRulesClient)(nil)
 
-        var _ MaintenanceWindowsClientAPI = (*mysql.MaintenanceWindowsClient)(nil)
-        // CheckNameAvailabilityClientAPI contains the set of methods on the CheckNameAvailabilityClient type.
-        type CheckNameAvailabilityClientAPI interface {
-            Execute(ctx context.Context, nameAvailabilityRequest mysql.NameAvailabilityRequest) (result mysql.NameAvailability, err error)
-        }
+// DatabasesClientAPI contains the set of methods on the DatabasesClient type.
+type DatabasesClientAPI interface {
+	CreateOrUpdate(ctx context.Context, resourceGroupName string, serverName string, databaseName string, parameters mysql.Database) (result mysql.DatabasesCreateOrUpdateFuture, err error)
+	Delete(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (result mysql.DatabasesDeleteFuture, err error)
+	Get(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (result mysql.Database, err error)
+	ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result mysql.DatabaseListResultPage, err error)
+	ListByServerComplete(ctx context.Context, resourceGroupName string, serverName string) (result mysql.DatabaseListResultIterator, err error)
+}
 
-        var _ CheckNameAvailabilityClientAPI = (*mysql.CheckNameAvailabilityClient)(nil)
-        // OperationsClientAPI contains the set of methods on the OperationsClient type.
-        type OperationsClientAPI interface {
-            List(ctx context.Context) (result mysql.OperationListResult, err error)
-        }
+var _ DatabasesClientAPI = (*mysql.DatabasesClient)(nil)
 
-        var _ OperationsClientAPI = (*mysql.OperationsClient)(nil)
+// ConfigurationsClientAPI contains the set of methods on the ConfigurationsClient type.
+type ConfigurationsClientAPI interface {
+	Get(ctx context.Context, resourceGroupName string, serverName string, configurationName string) (result mysql.Configuration, err error)
+	ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result mysql.ConfigurationListResultPage, err error)
+	ListByServerComplete(ctx context.Context, resourceGroupName string, serverName string) (result mysql.ConfigurationListResultIterator, err error)
+	Update(ctx context.Context, resourceGroupName string, serverName string, configurationName string, parameters mysql.Configuration) (result mysql.ConfigurationsUpdateFuture, err error)
+}
+
+var _ ConfigurationsClientAPI = (*mysql.ConfigurationsClient)(nil)
+
+// MaintenanceWindowsClientAPI contains the set of methods on the MaintenanceWindowsClient type.
+type MaintenanceWindowsClientAPI interface {
+	CreateOrUpdate(ctx context.Context, resourceGroupName string, serverName string, maintenanceWindowName string, parameters mysql.MaintenanceWindow) (result mysql.MaintenanceWindowsCreateOrUpdateFuture, err error)
+	Delete(ctx context.Context, resourceGroupName string, serverName string, maintenanceWindowName string) (result mysql.MaintenanceWindowsDeleteFuture, err error)
+	Get(ctx context.Context, resourceGroupName string, serverName string, maintenanceWindowName string) (result mysql.MaintenanceWindow, err error)
+	ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result mysql.MaintenanceWindowListResultPage, err error)
+	ListByServerComplete(ctx context.Context, resourceGroupName string, serverName string) (result mysql.MaintenanceWindowListResultIterator, err error)
+}
+
+var _ MaintenanceWindowsClientAPI = (*mysql.MaintenanceWindowsClient)(nil)
+
+// CheckNameAvailabilityClientAPI contains the set of methods on the CheckNameAvailabilityClient type.
+type CheckNameAvailabilityClientAPI interface {
+	Execute(ctx context.Context, nameAvailabilityRequest mysql.NameAvailabilityRequest) (result mysql.NameAvailability, err error)
+}
+
+var _ CheckNameAvailabilityClientAPI = (*mysql.CheckNameAvailabilityClient)(nil)
+
+// OperationsClientAPI contains the set of methods on the OperationsClient type.
+type OperationsClientAPI interface {
+	List(ctx context.Context) (result mysql.OperationListResult, err error)
+}
+
+var _ OperationsClientAPI = (*mysql.OperationsClient)(nil)
