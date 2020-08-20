@@ -29,7 +29,7 @@ import (
 )
 
 // The package's fully qualified name.
-const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt/flexible-servers/2020-02-14-privatepreview/postgresql"
+const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexible-servers/2020-02-14-privatepreview/postgresql"
 
         // AzureEntityResource the resource model definition for a Azure Resource Manager resource with an etag.
         type AzureEntityResource struct {
@@ -292,6 +292,34 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
                 objectMap["source"] = cp.Source
                 }
                 return json.Marshal(objectMap)
+        }
+
+        // ConfigurationsUpdateFuture an abstraction for monitoring and retrieving the results of a long-running
+        // operation.
+        type ConfigurationsUpdateFuture struct {
+            azure.Future
+        }
+        // Result returns the result of the asynchronous operation.
+        // If the operation has not completed it will return an error.
+        func (future *ConfigurationsUpdateFuture) Result(client ConfigurationsClient) (c Configuration, err error) {
+        var done bool
+        done, err = future.DoneWithContext(context.Background(), client)
+        if err != nil {
+        err = autorest.NewErrorWithError(err, "postgresql.ConfigurationsUpdateFuture", "Result", future.Response(), "Polling failure")
+        return
+        }
+        if !done {
+        err = azure.NewAsyncOpIncompleteError("postgresql.ConfigurationsUpdateFuture")
+        return
+        }
+            sender := autorest.DecorateSender(client, autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
+            if c.Response.Response, err = future.GetResult(sender); err == nil && c.Response.Response.StatusCode != http.StatusNoContent {
+            c, err = client.UpdateResponder(c.Response.Response)
+            if err != nil {
+            err = autorest.NewErrorWithError(err, "postgresql.ConfigurationsUpdateFuture", "Result", c.Response.Response, "Failure responding to request")
+            }
+            }
+            return
         }
 
         // CustomerMaintenanceWindow represents a server firewall rule.
@@ -935,8 +963,6 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
         Name *string `json:"name,omitempty"`
         // Tier - The tier of the particular SKU, e.g. Burstable. Possible values include: 'Burstable', 'GeneralPurpose', 'MemoryOptimized'
         Tier SkuTier `json:"tier,omitempty"`
-        // Capacity - The scale up/out capacity, representing server's compute units.
-        Capacity *int32 `json:"capacity,omitempty"`
         }
 
         // Server represents a server.
@@ -1269,6 +1295,8 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
         SourceServerName *string `json:"sourceServerName,omitempty"`
         // PointInTimeUTC - Restore point creation time (ISO8601 format), specifying the time to restore from.
         PointInTimeUTC *date.Time `json:"pointInTimeUTC,omitempty"`
+        // AvailabilityZone - availability Zone information of the server.
+        AvailabilityZone *string `json:"availabilityZone,omitempty"`
         VnetInjArgs *ServerPropertiesVnetInjArgs `json:"vnetInjArgs,omitempty"`
         // CreateMode - The mode to create a new PostgreSQL server. Possible values include: 'Default', 'PointInTimeRestore'
         CreateMode CreateMode `json:"createMode,omitempty"`
@@ -1306,6 +1334,9 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
                 if(sp.PointInTimeUTC != nil) {
                 objectMap["pointInTimeUTC"] = sp.PointInTimeUTC
                 }
+                if(sp.AvailabilityZone != nil) {
+                objectMap["availabilityZone"] = sp.AvailabilityZone
+                }
                 if(sp.VnetInjArgs != nil) {
                 objectMap["vnetInjArgs"] = sp.VnetInjArgs
                 }
@@ -1338,6 +1369,8 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
         DelegatedSubnetName *string `json:"delegatedSubnetName,omitempty"`
         // DelegatedVnetName - delegated vNet name
         DelegatedVnetName *string `json:"delegatedVnetName,omitempty"`
+        // DelegatedVnetResourceGroup - delegated vNet resource group name
+        DelegatedVnetResourceGroup *string `json:"delegatedVnetResourceGroup,omitempty"`
         }
 
         // ServersCreateFuture an abstraction for monitoring and retrieving the results of a long-running operation.
@@ -1484,8 +1517,6 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
         Name *string `json:"name,omitempty"`
         // Tier - The tier of the particular SKU, e.g. Burstable. Possible values include: 'Burstable', 'GeneralPurpose', 'MemoryOptimized'
         Tier SkuTier `json:"tier,omitempty"`
-        // Capacity - The scale up/out capacity, representing server's compute units.
-        Capacity *int32 `json:"capacity,omitempty"`
         }
 
         // StorageProfile storage Profile properties of a server

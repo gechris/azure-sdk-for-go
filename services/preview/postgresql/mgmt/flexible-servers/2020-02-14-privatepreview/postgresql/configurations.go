@@ -256,3 +256,93 @@ autorest.WithQueryParameters(queryParameters))
                             return
             }
 
+// Update updates a configuration of a server.
+    // Parameters:
+        // resourceGroupName - the name of the resource group. The name is case insensitive.
+        // serverName - the name of the server.
+        // configurationName - the name of the server configuration.
+        // parameters - the required parameters for updating a server configuration.
+func (client ConfigurationsClient) Update(ctx context.Context, resourceGroupName string, serverName string, configurationName string, parameters Configuration) (result ConfigurationsUpdateFuture, err error) {
+    if tracing.IsEnabled() {
+        ctx = tracing.StartSpan(ctx, fqdn + "/ConfigurationsClient.Update")
+        defer func() {
+            sc := -1
+        if result.Response() != nil {
+        sc = result.Response().StatusCode
+        }
+            tracing.EndSpan(ctx, sc, err)
+        }()
+    }
+        if err := validation.Validate([]validation.Validation{
+        { TargetValue: client.SubscriptionID,
+         Constraints: []validation.Constraint{	{Target: "client.SubscriptionID", Name: validation.MinLength, Rule: 1, Chain: nil }}},
+        { TargetValue: resourceGroupName,
+         Constraints: []validation.Constraint{	{Target: "resourceGroupName", Name: validation.MaxLength, Rule: 90, Chain: nil },
+        	{Target: "resourceGroupName", Name: validation.MinLength, Rule: 1, Chain: nil },
+        	{Target: "resourceGroupName", Name: validation.Pattern, Rule: `^[-\w\._\(\)]+$`, Chain: nil }}}}); err != nil {
+        return result, validation.NewError("postgresql.ConfigurationsClient", "Update", err.Error())
+        }
+
+        req, err := client.UpdatePreparer(ctx, resourceGroupName, serverName, configurationName, parameters)
+    if err != nil {
+    err = autorest.NewErrorWithError(err, "postgresql.ConfigurationsClient", "Update", nil , "Failure preparing request")
+    return
+    }
+
+        result, err = client.UpdateSender(req)
+        if err != nil {
+        err = autorest.NewErrorWithError(err, "postgresql.ConfigurationsClient", "Update", result.Response(), "Failure sending request")
+        return
+        }
+
+    return
+}
+
+    // UpdatePreparer prepares the Update request.
+    func (client ConfigurationsClient) UpdatePreparer(ctx context.Context, resourceGroupName string, serverName string, configurationName string, parameters Configuration) (*http.Request, error) {
+        pathParameters := map[string]interface{} {
+        "configurationName": autorest.Encode("path",configurationName),
+        "resourceGroupName": autorest.Encode("path",resourceGroupName),
+        "serverName": autorest.Encode("path",serverName),
+        "subscriptionId": autorest.Encode("path",client.SubscriptionID),
+        }
+
+            const APIVersion = "2020-02-14-privatepreview"
+    queryParameters := map[string]interface{} {
+    "api-version": APIVersion,
+    }
+
+    preparer := autorest.CreatePreparer(
+autorest.AsContentType("application/json; charset=utf-8"),
+autorest.AsPatch(),
+autorest.WithBaseURL(client.BaseURI),
+autorest.WithPathParameters("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForPostgreSql/flexibleServers/{serverName}/configurations/{configurationName}",pathParameters),
+autorest.WithJSON(parameters),
+autorest.WithQueryParameters(queryParameters))
+    return preparer.Prepare((&http.Request{}).WithContext(ctx))
+    }
+
+    // UpdateSender sends the Update request. The method will close the
+    // http.Response Body if it receives an error.
+    func (client ConfigurationsClient) UpdateSender(req *http.Request) (future ConfigurationsUpdateFuture, err error) {
+            var resp *http.Response
+            resp, err = client.Send(req, azure.DoRetryWithRegistration(client.Client))
+            if err != nil {
+            return
+            }
+            future.Future, err = azure.NewFutureFromResponse(resp)
+            return
+            }
+
+    // UpdateResponder handles the response to the Update request. The method always
+    // closes the http.Response Body.
+    func (client ConfigurationsClient) UpdateResponder(resp *http.Response) (result Configuration, err error) {
+            err = autorest.Respond(
+            resp,
+            azure.WithErrorUnlessStatusCode(http.StatusOK,http.StatusAccepted),
+            autorest.ByUnmarshallingJSON(&result),
+            autorest.ByClosing())
+            result.Response = autorest.Response{Response: resp}
+            return
+    }
+
