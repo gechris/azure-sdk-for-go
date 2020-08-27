@@ -1,4 +1,4 @@
-package mysql
+package mysqlflexibleservers
 
 // Copyright (c) Microsoft and contributors.  All rights reserved.
 //
@@ -72,18 +72,18 @@ func (client ServersClient) Create(ctx context.Context, resourceGroupName string
         Chain: []validation.Constraint{	{Target: "parameters.ServerProperties.ReplicaCapacity", Name: validation.InclusiveMinimum, Rule: int64(0), Chain: nil },
         }},
         }}}}}); err != nil {
-        return result, validation.NewError("mysql.ServersClient", "Create", err.Error())
+        return result, validation.NewError("mysqlflexibleservers.ServersClient", "Create", err.Error())
         }
 
         req, err := client.CreatePreparer(ctx, resourceGroupName, serverName, parameters)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "mysql.ServersClient", "Create", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "Create", nil , "Failure preparing request")
     return
     }
 
         result, err = client.CreateSender(req)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "mysql.ServersClient", "Create", result.Response(), "Failure sending request")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "Create", result.Response(), "Failure sending request")
         return
         }
 
@@ -159,18 +159,18 @@ func (client ServersClient) Delete(ctx context.Context, resourceGroupName string
          Constraints: []validation.Constraint{	{Target: "resourceGroupName", Name: validation.MaxLength, Rule: 90, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.MinLength, Rule: 1, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.Pattern, Rule: `^[-\w\._\(\)]+$`, Chain: nil }}}}); err != nil {
-        return result, validation.NewError("mysql.ServersClient", "Delete", err.Error())
+        return result, validation.NewError("mysqlflexibleservers.ServersClient", "Delete", err.Error())
         }
 
         req, err := client.DeletePreparer(ctx, resourceGroupName, serverName)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "mysql.ServersClient", "Delete", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "Delete", nil , "Failure preparing request")
     return
     }
 
         result, err = client.DeleteSender(req)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "mysql.ServersClient", "Delete", result.Response(), "Failure sending request")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "Delete", result.Response(), "Failure sending request")
         return
         }
 
@@ -243,25 +243,25 @@ func (client ServersClient) Get(ctx context.Context, resourceGroupName string, s
          Constraints: []validation.Constraint{	{Target: "resourceGroupName", Name: validation.MaxLength, Rule: 90, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.MinLength, Rule: 1, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.Pattern, Rule: `^[-\w\._\(\)]+$`, Chain: nil }}}}); err != nil {
-        return result, validation.NewError("mysql.ServersClient", "Get", err.Error())
+        return result, validation.NewError("mysqlflexibleservers.ServersClient", "Get", err.Error())
         }
 
         req, err := client.GetPreparer(ctx, resourceGroupName, serverName)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "mysql.ServersClient", "Get", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "Get", nil , "Failure preparing request")
     return
     }
 
         resp, err := client.GetSender(req)
         if err != nil {
         result.Response = autorest.Response{Response: resp}
-        err = autorest.NewErrorWithError(err, "mysql.ServersClient", "Get", resp, "Failure sending request")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "Get", resp, "Failure sending request")
         return
         }
 
         result, err = client.GetResponder(resp)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "mysql.ServersClient", "Get", resp, "Failure responding to request")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "Get", resp, "Failure responding to request")
         }
 
     return
@@ -321,26 +321,26 @@ func (client ServersClient) List(ctx context.Context) (result ServerListResultPa
         if err := validation.Validate([]validation.Validation{
         { TargetValue: client.SubscriptionID,
          Constraints: []validation.Constraint{	{Target: "client.SubscriptionID", Name: validation.MinLength, Rule: 1, Chain: nil }}}}); err != nil {
-        return result, validation.NewError("mysql.ServersClient", "List", err.Error())
+        return result, validation.NewError("mysqlflexibleservers.ServersClient", "List", err.Error())
         }
 
             result.fn = client.listNextResults
     req, err := client.ListPreparer(ctx)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "mysql.ServersClient", "List", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "List", nil , "Failure preparing request")
     return
     }
 
         resp, err := client.ListSender(req)
         if err != nil {
         result.slr.Response = autorest.Response{Response: resp}
-        err = autorest.NewErrorWithError(err, "mysql.ServersClient", "List", resp, "Failure sending request")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "List", resp, "Failure sending request")
         return
         }
 
         result.slr, err = client.ListResponder(resp)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "mysql.ServersClient", "List", resp, "Failure responding to request")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "List", resp, "Failure responding to request")
         }
             if result.slr.hasNextLink() && result.slr.IsEmpty() {
             err = result.NextWithContext(ctx)
@@ -390,7 +390,7 @@ autorest.WithQueryParameters(queryParameters))
             func (client ServersClient) listNextResults(ctx context.Context, lastResults ServerListResult) (result ServerListResult, err error) {
             req, err := lastResults.serverListResultPreparer(ctx)
             if err != nil {
-            return result, autorest.NewErrorWithError(err, "mysql.ServersClient", "listNextResults", nil , "Failure preparing next results request")
+            return result, autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "listNextResults", nil , "Failure preparing next results request")
             }
             if req == nil {
             return
@@ -398,11 +398,11 @@ autorest.WithQueryParameters(queryParameters))
             resp, err := client.ListSender(req)
             if err != nil {
             result.Response = autorest.Response{Response: resp}
-            return result, autorest.NewErrorWithError(err, "mysql.ServersClient", "listNextResults", resp, "Failure sending next results request")
+            return result, autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "listNextResults", resp, "Failure sending next results request")
             }
             result, err = client.ListResponder(resp)
             if err != nil {
-            err = autorest.NewErrorWithError(err, "mysql.ServersClient", "listNextResults", resp, "Failure responding to next results request")
+            err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "listNextResults", resp, "Failure responding to next results request")
             }
             return
                     }
@@ -444,26 +444,26 @@ func (client ServersClient) ListByResourceGroup(ctx context.Context, resourceGro
          Constraints: []validation.Constraint{	{Target: "resourceGroupName", Name: validation.MaxLength, Rule: 90, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.MinLength, Rule: 1, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.Pattern, Rule: `^[-\w\._\(\)]+$`, Chain: nil }}}}); err != nil {
-        return result, validation.NewError("mysql.ServersClient", "ListByResourceGroup", err.Error())
+        return result, validation.NewError("mysqlflexibleservers.ServersClient", "ListByResourceGroup", err.Error())
         }
 
             result.fn = client.listByResourceGroupNextResults
     req, err := client.ListByResourceGroupPreparer(ctx, resourceGroupName)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "mysql.ServersClient", "ListByResourceGroup", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "ListByResourceGroup", nil , "Failure preparing request")
     return
     }
 
         resp, err := client.ListByResourceGroupSender(req)
         if err != nil {
         result.slr.Response = autorest.Response{Response: resp}
-        err = autorest.NewErrorWithError(err, "mysql.ServersClient", "ListByResourceGroup", resp, "Failure sending request")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "ListByResourceGroup", resp, "Failure sending request")
         return
         }
 
         result.slr, err = client.ListByResourceGroupResponder(resp)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "mysql.ServersClient", "ListByResourceGroup", resp, "Failure responding to request")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "ListByResourceGroup", resp, "Failure responding to request")
         }
             if result.slr.hasNextLink() && result.slr.IsEmpty() {
             err = result.NextWithContext(ctx)
@@ -514,7 +514,7 @@ autorest.WithQueryParameters(queryParameters))
             func (client ServersClient) listByResourceGroupNextResults(ctx context.Context, lastResults ServerListResult) (result ServerListResult, err error) {
             req, err := lastResults.serverListResultPreparer(ctx)
             if err != nil {
-            return result, autorest.NewErrorWithError(err, "mysql.ServersClient", "listByResourceGroupNextResults", nil , "Failure preparing next results request")
+            return result, autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "listByResourceGroupNextResults", nil , "Failure preparing next results request")
             }
             if req == nil {
             return
@@ -522,11 +522,11 @@ autorest.WithQueryParameters(queryParameters))
             resp, err := client.ListByResourceGroupSender(req)
             if err != nil {
             result.Response = autorest.Response{Response: resp}
-            return result, autorest.NewErrorWithError(err, "mysql.ServersClient", "listByResourceGroupNextResults", resp, "Failure sending next results request")
+            return result, autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "listByResourceGroupNextResults", resp, "Failure sending next results request")
             }
             result, err = client.ListByResourceGroupResponder(resp)
             if err != nil {
-            err = autorest.NewErrorWithError(err, "mysql.ServersClient", "listByResourceGroupNextResults", resp, "Failure responding to next results request")
+            err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "listByResourceGroupNextResults", resp, "Failure responding to next results request")
             }
             return
                     }
@@ -569,18 +569,18 @@ func (client ServersClient) Restart(ctx context.Context, resourceGroupName strin
          Constraints: []validation.Constraint{	{Target: "resourceGroupName", Name: validation.MaxLength, Rule: 90, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.MinLength, Rule: 1, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.Pattern, Rule: `^[-\w\._\(\)]+$`, Chain: nil }}}}); err != nil {
-        return result, validation.NewError("mysql.ServersClient", "Restart", err.Error())
+        return result, validation.NewError("mysqlflexibleservers.ServersClient", "Restart", err.Error())
         }
 
         req, err := client.RestartPreparer(ctx, resourceGroupName, serverName)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "mysql.ServersClient", "Restart", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "Restart", nil , "Failure preparing request")
     return
     }
 
         result, err = client.RestartSender(req)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "mysql.ServersClient", "Restart", result.Response(), "Failure sending request")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "Restart", result.Response(), "Failure sending request")
         return
         }
 
@@ -653,18 +653,18 @@ func (client ServersClient) Start(ctx context.Context, resourceGroupName string,
          Constraints: []validation.Constraint{	{Target: "resourceGroupName", Name: validation.MaxLength, Rule: 90, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.MinLength, Rule: 1, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.Pattern, Rule: `^[-\w\._\(\)]+$`, Chain: nil }}}}); err != nil {
-        return result, validation.NewError("mysql.ServersClient", "Start", err.Error())
+        return result, validation.NewError("mysqlflexibleservers.ServersClient", "Start", err.Error())
         }
 
         req, err := client.StartPreparer(ctx, resourceGroupName, serverName)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "mysql.ServersClient", "Start", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "Start", nil , "Failure preparing request")
     return
     }
 
         result, err = client.StartSender(req)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "mysql.ServersClient", "Start", result.Response(), "Failure sending request")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "Start", result.Response(), "Failure sending request")
         return
         }
 
@@ -737,18 +737,18 @@ func (client ServersClient) Stop(ctx context.Context, resourceGroupName string, 
          Constraints: []validation.Constraint{	{Target: "resourceGroupName", Name: validation.MaxLength, Rule: 90, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.MinLength, Rule: 1, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.Pattern, Rule: `^[-\w\._\(\)]+$`, Chain: nil }}}}); err != nil {
-        return result, validation.NewError("mysql.ServersClient", "Stop", err.Error())
+        return result, validation.NewError("mysqlflexibleservers.ServersClient", "Stop", err.Error())
         }
 
         req, err := client.StopPreparer(ctx, resourceGroupName, serverName)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "mysql.ServersClient", "Stop", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "Stop", nil , "Failure preparing request")
     return
     }
 
         result, err = client.StopSender(req)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "mysql.ServersClient", "Stop", result.Response(), "Failure sending request")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "Stop", result.Response(), "Failure sending request")
         return
         }
 
@@ -823,18 +823,18 @@ func (client ServersClient) Update(ctx context.Context, resourceGroupName string
          Constraints: []validation.Constraint{	{Target: "resourceGroupName", Name: validation.MaxLength, Rule: 90, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.MinLength, Rule: 1, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.Pattern, Rule: `^[-\w\._\(\)]+$`, Chain: nil }}}}); err != nil {
-        return result, validation.NewError("mysql.ServersClient", "Update", err.Error())
+        return result, validation.NewError("mysqlflexibleservers.ServersClient", "Update", err.Error())
         }
 
         req, err := client.UpdatePreparer(ctx, resourceGroupName, serverName, parameters)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "mysql.ServersClient", "Update", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "Update", nil , "Failure preparing request")
     return
     }
 
         result, err = client.UpdateSender(req)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "mysql.ServersClient", "Update", result.Response(), "Failure sending request")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersClient", "Update", result.Response(), "Failure sending request")
         return
         }
 

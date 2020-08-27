@@ -1,4 +1,4 @@
-package mysql
+package postgresqlflexibleservers
 
 // Copyright (c) Microsoft and contributors.  All rights reserved.
 //
@@ -27,8 +27,8 @@ import (
 )
 
 // ConfigurationsClient is the the Microsoft Azure management API provides create, read, update, and delete
-// functionality for Azure MySQL resources including servers, databases, firewall rules, VNET rules, log files and
-// configurations with new business model.
+// functionality for Azure PostgreSQL resources including servers, databases, firewall rules, VNET rules, security
+// alert policies, log files and configurations with new business model.
 type ConfigurationsClient struct {
     BaseClient
 }
@@ -66,25 +66,25 @@ func (client ConfigurationsClient) Get(ctx context.Context, resourceGroupName st
          Constraints: []validation.Constraint{	{Target: "resourceGroupName", Name: validation.MaxLength, Rule: 90, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.MinLength, Rule: 1, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.Pattern, Rule: `^[-\w\._\(\)]+$`, Chain: nil }}}}); err != nil {
-        return result, validation.NewError("mysql.ConfigurationsClient", "Get", err.Error())
+        return result, validation.NewError("postgresqlflexibleservers.ConfigurationsClient", "Get", err.Error())
         }
 
         req, err := client.GetPreparer(ctx, resourceGroupName, serverName, configurationName)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "mysql.ConfigurationsClient", "Get", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ConfigurationsClient", "Get", nil , "Failure preparing request")
     return
     }
 
         resp, err := client.GetSender(req)
         if err != nil {
         result.Response = autorest.Response{Response: resp}
-        err = autorest.NewErrorWithError(err, "mysql.ConfigurationsClient", "Get", resp, "Failure sending request")
+        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ConfigurationsClient", "Get", resp, "Failure sending request")
         return
         }
 
         result, err = client.GetResponder(resp)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "mysql.ConfigurationsClient", "Get", resp, "Failure responding to request")
+        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ConfigurationsClient", "Get", resp, "Failure responding to request")
         }
 
     return
@@ -99,7 +99,7 @@ func (client ConfigurationsClient) Get(ctx context.Context, resourceGroupName st
         "subscriptionId": autorest.Encode("path",client.SubscriptionID),
         }
 
-            const APIVersion = "2020-07-01-privatepreview"
+            const APIVersion = "2020-02-14-privatepreview"
     queryParameters := map[string]interface{} {
     "api-version": APIVersion,
     }
@@ -107,7 +107,7 @@ func (client ConfigurationsClient) Get(ctx context.Context, resourceGroupName st
     preparer := autorest.CreatePreparer(
 autorest.AsGet(),
 autorest.WithBaseURL(client.BaseURI),
-autorest.WithPathParameters("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForMySql/flexibleServers/{serverName}/configurations/{configurationName}",pathParameters),
+autorest.WithPathParameters("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForPostgreSql/flexibleServers/{serverName}/configurations/{configurationName}",pathParameters),
 autorest.WithQueryParameters(queryParameters))
     return preparer.Prepare((&http.Request{}).WithContext(ctx))
     }
@@ -152,26 +152,26 @@ func (client ConfigurationsClient) ListByServer(ctx context.Context, resourceGro
          Constraints: []validation.Constraint{	{Target: "resourceGroupName", Name: validation.MaxLength, Rule: 90, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.MinLength, Rule: 1, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.Pattern, Rule: `^[-\w\._\(\)]+$`, Chain: nil }}}}); err != nil {
-        return result, validation.NewError("mysql.ConfigurationsClient", "ListByServer", err.Error())
+        return result, validation.NewError("postgresqlflexibleservers.ConfigurationsClient", "ListByServer", err.Error())
         }
 
             result.fn = client.listByServerNextResults
     req, err := client.ListByServerPreparer(ctx, resourceGroupName, serverName)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "mysql.ConfigurationsClient", "ListByServer", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ConfigurationsClient", "ListByServer", nil , "Failure preparing request")
     return
     }
 
         resp, err := client.ListByServerSender(req)
         if err != nil {
         result.clr.Response = autorest.Response{Response: resp}
-        err = autorest.NewErrorWithError(err, "mysql.ConfigurationsClient", "ListByServer", resp, "Failure sending request")
+        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ConfigurationsClient", "ListByServer", resp, "Failure sending request")
         return
         }
 
         result.clr, err = client.ListByServerResponder(resp)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "mysql.ConfigurationsClient", "ListByServer", resp, "Failure responding to request")
+        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ConfigurationsClient", "ListByServer", resp, "Failure responding to request")
         }
             if result.clr.hasNextLink() && result.clr.IsEmpty() {
             err = result.NextWithContext(ctx)
@@ -188,7 +188,7 @@ func (client ConfigurationsClient) ListByServer(ctx context.Context, resourceGro
         "subscriptionId": autorest.Encode("path",client.SubscriptionID),
         }
 
-            const APIVersion = "2020-07-01-privatepreview"
+            const APIVersion = "2020-02-14-privatepreview"
     queryParameters := map[string]interface{} {
     "api-version": APIVersion,
     }
@@ -196,7 +196,7 @@ func (client ConfigurationsClient) ListByServer(ctx context.Context, resourceGro
     preparer := autorest.CreatePreparer(
 autorest.AsGet(),
 autorest.WithBaseURL(client.BaseURI),
-autorest.WithPathParameters("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForMySql/flexibleServers/{serverName}/configurations",pathParameters),
+autorest.WithPathParameters("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForPostgreSql/flexibleServers/{serverName}/configurations",pathParameters),
 autorest.WithQueryParameters(queryParameters))
     return preparer.Prepare((&http.Request{}).WithContext(ctx))
     }
@@ -223,7 +223,7 @@ autorest.WithQueryParameters(queryParameters))
             func (client ConfigurationsClient) listByServerNextResults(ctx context.Context, lastResults ConfigurationListResult) (result ConfigurationListResult, err error) {
             req, err := lastResults.configurationListResultPreparer(ctx)
             if err != nil {
-            return result, autorest.NewErrorWithError(err, "mysql.ConfigurationsClient", "listByServerNextResults", nil , "Failure preparing next results request")
+            return result, autorest.NewErrorWithError(err, "postgresqlflexibleservers.ConfigurationsClient", "listByServerNextResults", nil , "Failure preparing next results request")
             }
             if req == nil {
             return
@@ -231,11 +231,11 @@ autorest.WithQueryParameters(queryParameters))
             resp, err := client.ListByServerSender(req)
             if err != nil {
             result.Response = autorest.Response{Response: resp}
-            return result, autorest.NewErrorWithError(err, "mysql.ConfigurationsClient", "listByServerNextResults", resp, "Failure sending next results request")
+            return result, autorest.NewErrorWithError(err, "postgresqlflexibleservers.ConfigurationsClient", "listByServerNextResults", resp, "Failure sending next results request")
             }
             result, err = client.ListByServerResponder(resp)
             if err != nil {
-            err = autorest.NewErrorWithError(err, "mysql.ConfigurationsClient", "listByServerNextResults", resp, "Failure responding to next results request")
+            err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ConfigurationsClient", "listByServerNextResults", resp, "Failure responding to next results request")
             }
             return
                     }
@@ -280,18 +280,18 @@ func (client ConfigurationsClient) Update(ctx context.Context, resourceGroupName
          Constraints: []validation.Constraint{	{Target: "resourceGroupName", Name: validation.MaxLength, Rule: 90, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.MinLength, Rule: 1, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.Pattern, Rule: `^[-\w\._\(\)]+$`, Chain: nil }}}}); err != nil {
-        return result, validation.NewError("mysql.ConfigurationsClient", "Update", err.Error())
+        return result, validation.NewError("postgresqlflexibleservers.ConfigurationsClient", "Update", err.Error())
         }
 
         req, err := client.UpdatePreparer(ctx, resourceGroupName, serverName, configurationName, parameters)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "mysql.ConfigurationsClient", "Update", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ConfigurationsClient", "Update", nil , "Failure preparing request")
     return
     }
 
         result, err = client.UpdateSender(req)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "mysql.ConfigurationsClient", "Update", result.Response(), "Failure sending request")
+        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ConfigurationsClient", "Update", result.Response(), "Failure sending request")
         return
         }
 
@@ -307,7 +307,7 @@ func (client ConfigurationsClient) Update(ctx context.Context, resourceGroupName
         "subscriptionId": autorest.Encode("path",client.SubscriptionID),
         }
 
-            const APIVersion = "2020-07-01-privatepreview"
+            const APIVersion = "2020-02-14-privatepreview"
     queryParameters := map[string]interface{} {
     "api-version": APIVersion,
     }
@@ -316,7 +316,7 @@ func (client ConfigurationsClient) Update(ctx context.Context, resourceGroupName
 autorest.AsContentType("application/json; charset=utf-8"),
 autorest.AsPatch(),
 autorest.WithBaseURL(client.BaseURI),
-autorest.WithPathParameters("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForMySql/flexibleServers/{serverName}/configurations/{configurationName}",pathParameters),
+autorest.WithPathParameters("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForPostgreSql/flexibleServers/{serverName}/configurations/{configurationName}",pathParameters),
 autorest.WithJSON(parameters),
 autorest.WithQueryParameters(queryParameters))
     return preparer.Prepare((&http.Request{}).WithContext(ctx))

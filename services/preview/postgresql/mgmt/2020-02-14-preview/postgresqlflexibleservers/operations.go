@@ -1,4 +1,4 @@
-package mysql
+package postgresqlflexibleservers
 
 // Copyright (c) Microsoft and contributors.  All rights reserved.
 //
@@ -26,8 +26,8 @@ import (
 )
 
 // OperationsClient is the the Microsoft Azure management API provides create, read, update, and delete functionality
-// for Azure MySQL resources including servers, databases, firewall rules, VNET rules, log files and configurations
-// with new business model.
+// for Azure PostgreSQL resources including servers, databases, firewall rules, VNET rules, security alert policies,
+// log files and configurations with new business model.
 type OperationsClient struct {
     BaseClient
 }
@@ -56,20 +56,20 @@ func (client OperationsClient) List(ctx context.Context) (result OperationListRe
     }
     req, err := client.ListPreparer(ctx)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "mysql.OperationsClient", "List", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.OperationsClient", "List", nil , "Failure preparing request")
     return
     }
 
         resp, err := client.ListSender(req)
         if err != nil {
         result.Response = autorest.Response{Response: resp}
-        err = autorest.NewErrorWithError(err, "mysql.OperationsClient", "List", resp, "Failure sending request")
+        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.OperationsClient", "List", resp, "Failure sending request")
         return
         }
 
         result, err = client.ListResponder(resp)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "mysql.OperationsClient", "List", resp, "Failure responding to request")
+        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.OperationsClient", "List", resp, "Failure responding to request")
         }
 
     return
@@ -77,7 +77,7 @@ func (client OperationsClient) List(ctx context.Context) (result OperationListRe
 
     // ListPreparer prepares the List request.
     func (client OperationsClient) ListPreparer(ctx context.Context) (*http.Request, error) {
-        const APIVersion = "2020-07-01-privatepreview"
+        const APIVersion = "2020-02-14-privatepreview"
     queryParameters := map[string]interface{} {
     "api-version": APIVersion,
     }
@@ -85,7 +85,7 @@ func (client OperationsClient) List(ctx context.Context) (result OperationListRe
     preparer := autorest.CreatePreparer(
 autorest.AsGet(),
 autorest.WithBaseURL(client.BaseURI),
-autorest.WithPath("/providers/Microsoft.DBForMySql/operations"),
+autorest.WithPath("/providers/Microsoft.DBForPostgreSql/operations"),
 autorest.WithQueryParameters(queryParameters))
     return preparer.Prepare((&http.Request{}).WithContext(ctx))
     }

@@ -1,4 +1,4 @@
-package mysql
+package mysqlflexibleservers
 
 // Copyright (c) Microsoft and contributors.  All rights reserved.
 //
@@ -65,26 +65,26 @@ func (client ReplicasClient) ListByServer(ctx context.Context, resourceGroupName
          Constraints: []validation.Constraint{	{Target: "resourceGroupName", Name: validation.MaxLength, Rule: 90, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.MinLength, Rule: 1, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.Pattern, Rule: `^[-\w\._\(\)]+$`, Chain: nil }}}}); err != nil {
-        return result, validation.NewError("mysql.ReplicasClient", "ListByServer", err.Error())
+        return result, validation.NewError("mysqlflexibleservers.ReplicasClient", "ListByServer", err.Error())
         }
 
             result.fn = client.listByServerNextResults
     req, err := client.ListByServerPreparer(ctx, resourceGroupName, serverName)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "mysql.ReplicasClient", "ListByServer", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ReplicasClient", "ListByServer", nil , "Failure preparing request")
     return
     }
 
         resp, err := client.ListByServerSender(req)
         if err != nil {
         result.slr.Response = autorest.Response{Response: resp}
-        err = autorest.NewErrorWithError(err, "mysql.ReplicasClient", "ListByServer", resp, "Failure sending request")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ReplicasClient", "ListByServer", resp, "Failure sending request")
         return
         }
 
         result.slr, err = client.ListByServerResponder(resp)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "mysql.ReplicasClient", "ListByServer", resp, "Failure responding to request")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ReplicasClient", "ListByServer", resp, "Failure responding to request")
         }
             if result.slr.hasNextLink() && result.slr.IsEmpty() {
             err = result.NextWithContext(ctx)
@@ -136,7 +136,7 @@ autorest.WithQueryParameters(queryParameters))
             func (client ReplicasClient) listByServerNextResults(ctx context.Context, lastResults ServerListResult) (result ServerListResult, err error) {
             req, err := lastResults.serverListResultPreparer(ctx)
             if err != nil {
-            return result, autorest.NewErrorWithError(err, "mysql.ReplicasClient", "listByServerNextResults", nil , "Failure preparing next results request")
+            return result, autorest.NewErrorWithError(err, "mysqlflexibleservers.ReplicasClient", "listByServerNextResults", nil , "Failure preparing next results request")
             }
             if req == nil {
             return
@@ -144,11 +144,11 @@ autorest.WithQueryParameters(queryParameters))
             resp, err := client.ListByServerSender(req)
             if err != nil {
             result.Response = autorest.Response{Response: resp}
-            return result, autorest.NewErrorWithError(err, "mysql.ReplicasClient", "listByServerNextResults", resp, "Failure sending next results request")
+            return result, autorest.NewErrorWithError(err, "mysqlflexibleservers.ReplicasClient", "listByServerNextResults", resp, "Failure sending next results request")
             }
             result, err = client.ListByServerResponder(resp)
             if err != nil {
-            err = autorest.NewErrorWithError(err, "mysql.ReplicasClient", "listByServerNextResults", resp, "Failure responding to next results request")
+            err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ReplicasClient", "listByServerNextResults", resp, "Failure responding to next results request")
             }
             return
                     }

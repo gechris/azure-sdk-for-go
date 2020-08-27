@@ -1,4 +1,4 @@
-package postgresql
+package mysqlflexibleservers
 
 // Copyright (c) Microsoft and contributors.  All rights reserved.
 //
@@ -29,7 +29,7 @@ import (
 )
 
 // The package's fully qualified name.
-const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexible-servers/2020-02-14-privatepreview/postgresql"
+const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/mysql/mgmt/2020-07-01-preview/mysqlflexibleservers"
 
         // AzureEntityResource the resource model definition for a Azure Resource Manager resource with an etag.
         type AzureEntityResource struct {
@@ -45,6 +45,7 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
 
         // CloudError an error response from the Batch service.
         type CloudError struct {
+        // Error - The resource management error response.
         Error *ErrorResponse `json:"error,omitempty"`
         }
 
@@ -274,12 +275,18 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
         Description *string `json:"description,omitempty"`
         // DefaultValue - READ-ONLY; Default value of the configuration.
         DefaultValue *string `json:"defaultValue,omitempty"`
-        // DataType - READ-ONLY; Data type of the configuration. Possible values include: 'Boolean', 'Numeric', 'Integer', 'Enumeration'
-        DataType ConfigurationDataType `json:"dataType,omitempty"`
+        // DataType - READ-ONLY; Data type of the configuration.
+        DataType *string `json:"dataType,omitempty"`
         // AllowedValues - READ-ONLY; Allowed values of the configuration.
         AllowedValues *string `json:"allowedValues,omitempty"`
         // Source - Source of the configuration.
         Source *string `json:"source,omitempty"`
+        // IsReadOnly - READ-ONLY; If is the configuration read only. Possible values include: 'IsReadOnlyTrue', 'IsReadOnlyFalse'
+        IsReadOnly IsReadOnly `json:"isReadOnly,omitempty"`
+        // IsConfigPendingRestart - READ-ONLY; If is the configuration pending restart or not. Possible values include: 'True', 'False'
+        IsConfigPendingRestart IsConfigPendingRestart `json:"isConfigPendingRestart,omitempty"`
+        // IsDynamicConfig - READ-ONLY; If is the configuration dynamic. Possible values include: 'IsDynamicConfigTrue', 'IsDynamicConfigFalse'
+        IsDynamicConfig IsDynamicConfig `json:"isDynamicConfig,omitempty"`
         }
 
         // MarshalJSON is the custom marshaler for ConfigurationProperties.
@@ -305,28 +312,28 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
         var done bool
         done, err = future.DoneWithContext(context.Background(), client)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresql.ConfigurationsUpdateFuture", "Result", future.Response(), "Polling failure")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ConfigurationsUpdateFuture", "Result", future.Response(), "Polling failure")
         return
         }
         if !done {
-        err = azure.NewAsyncOpIncompleteError("postgresql.ConfigurationsUpdateFuture")
+        err = azure.NewAsyncOpIncompleteError("mysqlflexibleservers.ConfigurationsUpdateFuture")
         return
         }
             sender := autorest.DecorateSender(client, autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
             if c.Response.Response, err = future.GetResult(sender); err == nil && c.Response.Response.StatusCode != http.StatusNoContent {
             c, err = client.UpdateResponder(c.Response.Response)
             if err != nil {
-            err = autorest.NewErrorWithError(err, "postgresql.ConfigurationsUpdateFuture", "Result", c.Response.Response, "Failure responding to request")
+            err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ConfigurationsUpdateFuture", "Result", c.Response.Response, "Failure responding to request")
             }
             }
             return
         }
 
-        // CustomerMaintenanceWindow represents a server firewall rule.
-        type CustomerMaintenanceWindow struct {
+        // Database represents a Database.
+        type Database struct {
         autorest.Response `json:"-"`
-        // CustomerMaintenanceWindowProperties - The properties of a customer maintenance window.
-        *CustomerMaintenanceWindowProperties `json:"properties,omitempty"`
+        // DatabaseProperties - The properties of a database.
+        *DatabaseProperties `json:"properties,omitempty"`
         // ID - READ-ONLY; Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
         ID *string `json:"id,omitempty"`
         // Name - READ-ONLY; The name of the resource
@@ -335,16 +342,16 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
         Type *string `json:"type,omitempty"`
         }
 
-        // MarshalJSON is the custom marshaler for CustomerMaintenanceWindow.
-        func (cmw CustomerMaintenanceWindow)MarshalJSON() ([]byte, error){
+        // MarshalJSON is the custom marshaler for Database.
+        func (d Database)MarshalJSON() ([]byte, error){
         objectMap := make(map[string]interface{})
-                if(cmw.CustomerMaintenanceWindowProperties != nil) {
-                objectMap["properties"] = cmw.CustomerMaintenanceWindowProperties
+                if(d.DatabaseProperties != nil) {
+                objectMap["properties"] = d.DatabaseProperties
                 }
                 return json.Marshal(objectMap)
         }
-        // UnmarshalJSON is the custom unmarshaler for CustomerMaintenanceWindow struct.
-        func (cmw *CustomerMaintenanceWindow) UnmarshalJSON(body []byte) error {
+        // UnmarshalJSON is the custom unmarshaler for Database struct.
+        func (d *Database) UnmarshalJSON(body []byte) error {
         var m map[string]*json.RawMessage
         err := json.Unmarshal(body, &m)
         if err != nil {
@@ -354,12 +361,12 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
         switch k {
                 case "properties":
     if v != nil {
-        var customerMaintenanceWindowProperties CustomerMaintenanceWindowProperties
-        err = json.Unmarshal(*v, &customerMaintenanceWindowProperties)
+        var databaseProperties DatabaseProperties
+        err = json.Unmarshal(*v, &databaseProperties)
         if err != nil {
     return err
     }
-        cmw.CustomerMaintenanceWindowProperties = &customerMaintenanceWindowProperties
+        d.DatabaseProperties = &databaseProperties
     }
                 case "id":
     if v != nil {
@@ -368,7 +375,7 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
         if err != nil {
     return err
     }
-        cmw.ID = &ID
+        d.ID = &ID
     }
                 case "name":
     if v != nil {
@@ -377,7 +384,7 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
         if err != nil {
     return err
     }
-        cmw.Name = &name
+        d.Name = &name
     }
                 case "type":
     if v != nil {
@@ -386,7 +393,7 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
         if err != nil {
     return err
     }
-        cmw.Type = &typeVar
+        d.Type = &typeVar
     }
             }
         }
@@ -394,73 +401,207 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
         return nil
         }
 
-        // CustomerMaintenanceWindowCreateOrUpdateFuture an abstraction for monitoring and retrieving the results of a
-        // long-running operation.
-        type CustomerMaintenanceWindowCreateOrUpdateFuture struct {
+        // DatabaseListResult a List of databases.
+        type DatabaseListResult struct {
+        autorest.Response `json:"-"`
+        // Value - The list of databases housed in a server
+        Value *[]Database `json:"value,omitempty"`
+        // NextLink - The link used to get the next page of operations.
+        NextLink *string `json:"nextLink,omitempty"`
+        }
+
+        // DatabaseListResultIterator provides access to a complete listing of Database values.
+        type DatabaseListResultIterator struct {
+            i int
+            page DatabaseListResultPage
+        }
+        // NextWithContext advances to the next value.  If there was an error making
+        // the request the iterator does not advance and the error is returned.
+        func (iter * DatabaseListResultIterator) NextWithContext(ctx context.Context) (err error) {
+        if tracing.IsEnabled() {
+        ctx = tracing.StartSpan(ctx, fqdn + "/DatabaseListResultIterator.NextWithContext")
+        defer func() {
+        sc := -1
+        if iter.Response().Response.Response != nil {
+        sc = iter.Response().Response.Response.StatusCode
+        }
+        tracing.EndSpan(ctx, sc, err)
+        }()
+        }
+        iter.i++
+        if iter.i < len(iter. page.Values()) {
+        return nil
+        }
+        err = iter.page.NextWithContext(ctx)
+        if err != nil {
+        iter. i--
+        return err
+        }
+        iter.i = 0
+        return nil
+        }
+        // Next advances to the next value.  If there was an error making
+        // the request the iterator does not advance and the error is returned.
+        // Deprecated: Use NextWithContext() instead.
+        func (iter * DatabaseListResultIterator) Next() error {
+        return iter.NextWithContext(context.Background())
+        }
+        // NotDone returns true if the enumeration should be started or is not yet complete.
+        func (iter DatabaseListResultIterator) NotDone() bool {
+        return iter.page.NotDone() && iter.i < len(iter. page.Values())
+        }
+        // Response returns the raw server response from the last page request.
+        func (iter DatabaseListResultIterator) Response() DatabaseListResult {
+        return iter.page.Response()
+        }
+        // Value returns the current value or a zero-initialized value if the
+        // iterator has advanced beyond the end of the collection.
+        func (iter DatabaseListResultIterator) Value() Database {
+        if !iter.page.NotDone() {
+        return Database{}
+        }
+        return iter.page.Values()[iter.i]
+        }
+        // Creates a new instance of the DatabaseListResultIterator type.
+        func NewDatabaseListResultIterator (page DatabaseListResultPage) DatabaseListResultIterator {
+            return DatabaseListResultIterator{page: page}
+        }
+
+
+            // IsEmpty returns true if the ListResult contains no values.
+            func (dlr DatabaseListResult) IsEmpty() bool {
+            return dlr.Value == nil || len(*dlr.Value) == 0
+            }
+
+            // hasNextLink returns true if the NextLink is not empty.
+            func (dlr DatabaseListResult) hasNextLink() bool {
+            return dlr.NextLink != nil && len(*dlr.NextLink) != 0
+            }
+                // databaseListResultPreparer prepares a request to retrieve the next set of results.
+                // It returns nil if no more results exist.
+                func (dlr DatabaseListResult) databaseListResultPreparer(ctx context.Context) (*http.Request, error) {
+                if !dlr.hasNextLink() {
+                return nil, nil
+                }
+                return autorest.Prepare((&http.Request{}).WithContext(ctx),
+                autorest.AsJSON(),
+                autorest.AsGet(),
+                autorest.WithBaseURL(to.String( dlr.NextLink)));
+                }
+
+        // DatabaseListResultPage contains a page of Database values.
+        type DatabaseListResultPage struct {
+            fn func(context.Context, DatabaseListResult) (DatabaseListResult, error)
+            dlr DatabaseListResult
+        }
+
+        // NextWithContext advances to the next page of values.  If there was an error making
+        // the request the page does not advance and the error is returned.
+        func (page * DatabaseListResultPage) NextWithContext(ctx context.Context) (err error) {
+        if tracing.IsEnabled() {
+        ctx = tracing.StartSpan(ctx, fqdn + "/DatabaseListResultPage.NextWithContext")
+        defer func() {
+        sc := -1
+        if page.Response().Response.Response != nil {
+        sc = page.Response().Response.Response.StatusCode
+        }
+        tracing.EndSpan(ctx, sc, err)
+        }()
+        }
+        for {
+            next, err := page.fn(ctx, page.dlr)
+            if err != nil {
+            return err
+            }
+            page.dlr = next
+            if !next.hasNextLink() || !next.IsEmpty() {
+                break
+            }
+        }
+        return nil
+        }
+
+        // Next advances to the next page of values.  If there was an error making
+        // the request the page does not advance and the error is returned.
+        // Deprecated: Use NextWithContext() instead.
+        func (page * DatabaseListResultPage) Next() error {
+        return page.NextWithContext(context.Background())
+        }
+        // NotDone returns true if the page enumeration should be started or is not yet complete.
+        func (page DatabaseListResultPage) NotDone() bool {
+        return !page.dlr.IsEmpty()
+        }
+        // Response returns the raw server response from the last page request.
+        func (page DatabaseListResultPage) Response() DatabaseListResult {
+        return page.dlr
+        }
+        // Values returns the slice of values for the current page or nil if there are no values.
+        func (page DatabaseListResultPage) Values() []Database {
+        if page.dlr.IsEmpty() {
+        return nil
+        }
+        return *page.dlr.Value
+        }
+        // Creates a new instance of the DatabaseListResultPage type.
+        func NewDatabaseListResultPage (getNextPage func(context.Context, DatabaseListResult) (DatabaseListResult, error)) DatabaseListResultPage {
+            return DatabaseListResultPage{fn: getNextPage}
+        }
+
+        // DatabaseProperties the properties of a database.
+        type DatabaseProperties struct {
+        // Charset - The charset of the database.
+        Charset *string `json:"charset,omitempty"`
+        // Collation - The collation of the database.
+        Collation *string `json:"collation,omitempty"`
+        }
+
+        // DatabasesCreateOrUpdateFuture an abstraction for monitoring and retrieving the results of a long-running
+        // operation.
+        type DatabasesCreateOrUpdateFuture struct {
             azure.Future
         }
         // Result returns the result of the asynchronous operation.
         // If the operation has not completed it will return an error.
-        func (future *CustomerMaintenanceWindowCreateOrUpdateFuture) Result(client CustomerMaintenanceWindowClient) (cmw CustomerMaintenanceWindow, err error) {
+        func (future *DatabasesCreateOrUpdateFuture) Result(client DatabasesClient) (d Database, err error) {
         var done bool
         done, err = future.DoneWithContext(context.Background(), client)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresql.CustomerMaintenanceWindowCreateOrUpdateFuture", "Result", future.Response(), "Polling failure")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.DatabasesCreateOrUpdateFuture", "Result", future.Response(), "Polling failure")
         return
         }
         if !done {
-        err = azure.NewAsyncOpIncompleteError("postgresql.CustomerMaintenanceWindowCreateOrUpdateFuture")
+        err = azure.NewAsyncOpIncompleteError("mysqlflexibleservers.DatabasesCreateOrUpdateFuture")
         return
         }
             sender := autorest.DecorateSender(client, autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
-            if cmw.Response.Response, err = future.GetResult(sender); err == nil && cmw.Response.Response.StatusCode != http.StatusNoContent {
-            cmw, err = client.CreateOrUpdateResponder(cmw.Response.Response)
+            if d.Response.Response, err = future.GetResult(sender); err == nil && d.Response.Response.StatusCode != http.StatusNoContent {
+            d, err = client.CreateOrUpdateResponder(d.Response.Response)
             if err != nil {
-            err = autorest.NewErrorWithError(err, "postgresql.CustomerMaintenanceWindowCreateOrUpdateFuture", "Result", cmw.Response.Response, "Failure responding to request")
+            err = autorest.NewErrorWithError(err, "mysqlflexibleservers.DatabasesCreateOrUpdateFuture", "Result", d.Response.Response, "Failure responding to request")
             }
             }
             return
         }
 
-        // CustomerMaintenanceWindowDeleteFuture an abstraction for monitoring and retrieving the results of a
-        // long-running operation.
-        type CustomerMaintenanceWindowDeleteFuture struct {
+        // DatabasesDeleteFuture an abstraction for monitoring and retrieving the results of a long-running operation.
+        type DatabasesDeleteFuture struct {
             azure.Future
         }
         // Result returns the result of the asynchronous operation.
         // If the operation has not completed it will return an error.
-        func (future *CustomerMaintenanceWindowDeleteFuture) Result(client CustomerMaintenanceWindowClient) (ar autorest.Response, err error) {
+        func (future *DatabasesDeleteFuture) Result(client DatabasesClient) (ar autorest.Response, err error) {
         var done bool
         done, err = future.DoneWithContext(context.Background(), client)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresql.CustomerMaintenanceWindowDeleteFuture", "Result", future.Response(), "Polling failure")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.DatabasesDeleteFuture", "Result", future.Response(), "Polling failure")
         return
         }
         if !done {
-        err = azure.NewAsyncOpIncompleteError("postgresql.CustomerMaintenanceWindowDeleteFuture")
+        err = azure.NewAsyncOpIncompleteError("mysqlflexibleservers.DatabasesDeleteFuture")
         return
         }
             ar.Response = future.Response()
         return
-        }
-
-        // CustomerMaintenanceWindowListResult a list of firewall rules.
-        type CustomerMaintenanceWindowListResult struct {
-        autorest.Response `json:"-"`
-        // Value - The list of CustomerMaintenanceWindows in a PostgreSQL server.
-        Value *[]CustomerMaintenanceWindow `json:"value,omitempty"`
-        }
-
-        // CustomerMaintenanceWindowProperties the properties of a server firewall rule.
-        type CustomerMaintenanceWindowProperties struct {
-        // DayOfWeek - The day of week of the customer maintenance window to start
-        DayOfWeek *int32 `json:"dayOfWeek,omitempty"`
-        // DurationInMinutes - The duration of the customer maintenance window to run.
-        DurationInMinutes *int32 `json:"durationInMinutes,omitempty"`
-        // StartHour - The starting hour of the customer maintenance window.
-        StartHour *int32 `json:"startHour,omitempty"`
-        // StartMinute - The starting minutes of the customer maintenance window.
-        StartMinute *int32 `json:"startMinute,omitempty"`
         }
 
         // ErrorAdditionalInfo the resource management error additional info.
@@ -722,18 +863,18 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
         var done bool
         done, err = future.DoneWithContext(context.Background(), client)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresql.FirewallRulesCreateOrUpdateFuture", "Result", future.Response(), "Polling failure")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.FirewallRulesCreateOrUpdateFuture", "Result", future.Response(), "Polling failure")
         return
         }
         if !done {
-        err = azure.NewAsyncOpIncompleteError("postgresql.FirewallRulesCreateOrUpdateFuture")
+        err = azure.NewAsyncOpIncompleteError("mysqlflexibleservers.FirewallRulesCreateOrUpdateFuture")
         return
         }
             sender := autorest.DecorateSender(client, autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
             if fr.Response.Response, err = future.GetResult(sender); err == nil && fr.Response.Response.StatusCode != http.StatusNoContent {
             fr, err = client.CreateOrUpdateResponder(fr.Response.Response)
             if err != nil {
-            err = autorest.NewErrorWithError(err, "postgresql.FirewallRulesCreateOrUpdateFuture", "Result", fr.Response.Response, "Failure responding to request")
+            err = autorest.NewErrorWithError(err, "mysqlflexibleservers.FirewallRulesCreateOrUpdateFuture", "Result", fr.Response.Response, "Failure responding to request")
             }
             }
             return
@@ -750,11 +891,11 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
         var done bool
         done, err = future.DoneWithContext(context.Background(), client)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresql.FirewallRulesDeleteFuture", "Result", future.Response(), "Polling failure")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.FirewallRulesDeleteFuture", "Result", future.Response(), "Polling failure")
         return
         }
         if !done {
-        err = azure.NewAsyncOpIncompleteError("postgresql.FirewallRulesDeleteFuture")
+        err = azure.NewAsyncOpIncompleteError("mysqlflexibleservers.FirewallRulesDeleteFuture")
         return
         }
             ar.Response = future.Response()
@@ -780,6 +921,286 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
                 return json.Marshal(objectMap)
         }
 
+        // MaintenanceWindow represents a server maintenance window.
+        type MaintenanceWindow struct {
+        autorest.Response `json:"-"`
+        // MaintenanceWindowProperties - The properties of a customer maintenance window.
+        *MaintenanceWindowProperties `json:"properties,omitempty"`
+        // ID - READ-ONLY; Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+        ID *string `json:"id,omitempty"`
+        // Name - READ-ONLY; The name of the resource
+        Name *string `json:"name,omitempty"`
+        // Type - READ-ONLY; The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+        Type *string `json:"type,omitempty"`
+        }
+
+        // MarshalJSON is the custom marshaler for MaintenanceWindow.
+        func (mw MaintenanceWindow)MarshalJSON() ([]byte, error){
+        objectMap := make(map[string]interface{})
+                if(mw.MaintenanceWindowProperties != nil) {
+                objectMap["properties"] = mw.MaintenanceWindowProperties
+                }
+                return json.Marshal(objectMap)
+        }
+        // UnmarshalJSON is the custom unmarshaler for MaintenanceWindow struct.
+        func (mw *MaintenanceWindow) UnmarshalJSON(body []byte) error {
+        var m map[string]*json.RawMessage
+        err := json.Unmarshal(body, &m)
+        if err != nil {
+        return err
+        }
+        for k, v := range  m {
+        switch k {
+                case "properties":
+    if v != nil {
+        var maintenanceWindowProperties MaintenanceWindowProperties
+        err = json.Unmarshal(*v, &maintenanceWindowProperties)
+        if err != nil {
+    return err
+    }
+        mw.MaintenanceWindowProperties = &maintenanceWindowProperties
+    }
+                case "id":
+    if v != nil {
+        var ID string
+        err = json.Unmarshal(*v, &ID)
+        if err != nil {
+    return err
+    }
+        mw.ID = &ID
+    }
+                case "name":
+    if v != nil {
+        var name string
+        err = json.Unmarshal(*v, &name)
+        if err != nil {
+    return err
+    }
+        mw.Name = &name
+    }
+                case "type":
+    if v != nil {
+        var typeVar string
+        err = json.Unmarshal(*v, &typeVar)
+        if err != nil {
+    return err
+    }
+        mw.Type = &typeVar
+    }
+            }
+        }
+
+        return nil
+        }
+
+        // MaintenanceWindowListResult a list of maintenance windows for a MySQL server.
+        type MaintenanceWindowListResult struct {
+        autorest.Response `json:"-"`
+        // Value - The list of server maintenance window.
+        Value *[]MaintenanceWindow `json:"value,omitempty"`
+        // NextLink - The link used to get the next page of operations.
+        NextLink *string `json:"nextLink,omitempty"`
+        }
+
+        // MaintenanceWindowListResultIterator provides access to a complete listing of MaintenanceWindow values.
+        type MaintenanceWindowListResultIterator struct {
+            i int
+            page MaintenanceWindowListResultPage
+        }
+        // NextWithContext advances to the next value.  If there was an error making
+        // the request the iterator does not advance and the error is returned.
+        func (iter * MaintenanceWindowListResultIterator) NextWithContext(ctx context.Context) (err error) {
+        if tracing.IsEnabled() {
+        ctx = tracing.StartSpan(ctx, fqdn + "/MaintenanceWindowListResultIterator.NextWithContext")
+        defer func() {
+        sc := -1
+        if iter.Response().Response.Response != nil {
+        sc = iter.Response().Response.Response.StatusCode
+        }
+        tracing.EndSpan(ctx, sc, err)
+        }()
+        }
+        iter.i++
+        if iter.i < len(iter. page.Values()) {
+        return nil
+        }
+        err = iter.page.NextWithContext(ctx)
+        if err != nil {
+        iter. i--
+        return err
+        }
+        iter.i = 0
+        return nil
+        }
+        // Next advances to the next value.  If there was an error making
+        // the request the iterator does not advance and the error is returned.
+        // Deprecated: Use NextWithContext() instead.
+        func (iter * MaintenanceWindowListResultIterator) Next() error {
+        return iter.NextWithContext(context.Background())
+        }
+        // NotDone returns true if the enumeration should be started or is not yet complete.
+        func (iter MaintenanceWindowListResultIterator) NotDone() bool {
+        return iter.page.NotDone() && iter.i < len(iter. page.Values())
+        }
+        // Response returns the raw server response from the last page request.
+        func (iter MaintenanceWindowListResultIterator) Response() MaintenanceWindowListResult {
+        return iter.page.Response()
+        }
+        // Value returns the current value or a zero-initialized value if the
+        // iterator has advanced beyond the end of the collection.
+        func (iter MaintenanceWindowListResultIterator) Value() MaintenanceWindow {
+        if !iter.page.NotDone() {
+        return MaintenanceWindow{}
+        }
+        return iter.page.Values()[iter.i]
+        }
+        // Creates a new instance of the MaintenanceWindowListResultIterator type.
+        func NewMaintenanceWindowListResultIterator (page MaintenanceWindowListResultPage) MaintenanceWindowListResultIterator {
+            return MaintenanceWindowListResultIterator{page: page}
+        }
+
+
+            // IsEmpty returns true if the ListResult contains no values.
+            func (mwlr MaintenanceWindowListResult) IsEmpty() bool {
+            return mwlr.Value == nil || len(*mwlr.Value) == 0
+            }
+
+            // hasNextLink returns true if the NextLink is not empty.
+            func (mwlr MaintenanceWindowListResult) hasNextLink() bool {
+            return mwlr.NextLink != nil && len(*mwlr.NextLink) != 0
+            }
+                // maintenanceWindowListResultPreparer prepares a request to retrieve the next set of results.
+                // It returns nil if no more results exist.
+                func (mwlr MaintenanceWindowListResult) maintenanceWindowListResultPreparer(ctx context.Context) (*http.Request, error) {
+                if !mwlr.hasNextLink() {
+                return nil, nil
+                }
+                return autorest.Prepare((&http.Request{}).WithContext(ctx),
+                autorest.AsJSON(),
+                autorest.AsGet(),
+                autorest.WithBaseURL(to.String( mwlr.NextLink)));
+                }
+
+        // MaintenanceWindowListResultPage contains a page of MaintenanceWindow values.
+        type MaintenanceWindowListResultPage struct {
+            fn func(context.Context, MaintenanceWindowListResult) (MaintenanceWindowListResult, error)
+            mwlr MaintenanceWindowListResult
+        }
+
+        // NextWithContext advances to the next page of values.  If there was an error making
+        // the request the page does not advance and the error is returned.
+        func (page * MaintenanceWindowListResultPage) NextWithContext(ctx context.Context) (err error) {
+        if tracing.IsEnabled() {
+        ctx = tracing.StartSpan(ctx, fqdn + "/MaintenanceWindowListResultPage.NextWithContext")
+        defer func() {
+        sc := -1
+        if page.Response().Response.Response != nil {
+        sc = page.Response().Response.Response.StatusCode
+        }
+        tracing.EndSpan(ctx, sc, err)
+        }()
+        }
+        for {
+            next, err := page.fn(ctx, page.mwlr)
+            if err != nil {
+            return err
+            }
+            page.mwlr = next
+            if !next.hasNextLink() || !next.IsEmpty() {
+                break
+            }
+        }
+        return nil
+        }
+
+        // Next advances to the next page of values.  If there was an error making
+        // the request the page does not advance and the error is returned.
+        // Deprecated: Use NextWithContext() instead.
+        func (page * MaintenanceWindowListResultPage) Next() error {
+        return page.NextWithContext(context.Background())
+        }
+        // NotDone returns true if the page enumeration should be started or is not yet complete.
+        func (page MaintenanceWindowListResultPage) NotDone() bool {
+        return !page.mwlr.IsEmpty()
+        }
+        // Response returns the raw server response from the last page request.
+        func (page MaintenanceWindowListResultPage) Response() MaintenanceWindowListResult {
+        return page.mwlr
+        }
+        // Values returns the slice of values for the current page or nil if there are no values.
+        func (page MaintenanceWindowListResultPage) Values() []MaintenanceWindow {
+        if page.mwlr.IsEmpty() {
+        return nil
+        }
+        return *page.mwlr.Value
+        }
+        // Creates a new instance of the MaintenanceWindowListResultPage type.
+        func NewMaintenanceWindowListResultPage (getNextPage func(context.Context, MaintenanceWindowListResult) (MaintenanceWindowListResult, error)) MaintenanceWindowListResultPage {
+            return MaintenanceWindowListResultPage{fn: getNextPage}
+        }
+
+        // MaintenanceWindowProperties the properties of a server maintenance window.
+        type MaintenanceWindowProperties struct {
+        // DayOfWeek - The day of week of the maintenance window to start
+        DayOfWeek *int32 `json:"dayOfWeek,omitempty"`
+        // DurationInMinutes - The duration of the maintenance window to run.
+        DurationInMinutes *int32 `json:"durationInMinutes,omitempty"`
+        // StartHour - The starting hour of the maintenance window.
+        StartHour *int32 `json:"startHour,omitempty"`
+        // StartMinute - The starting minutes of the maintenance window.
+        StartMinute *int32 `json:"startMinute,omitempty"`
+        }
+
+        // MaintenanceWindowsCreateOrUpdateFuture an abstraction for monitoring and retrieving the results of a
+        // long-running operation.
+        type MaintenanceWindowsCreateOrUpdateFuture struct {
+            azure.Future
+        }
+        // Result returns the result of the asynchronous operation.
+        // If the operation has not completed it will return an error.
+        func (future *MaintenanceWindowsCreateOrUpdateFuture) Result(client MaintenanceWindowsClient) (mw MaintenanceWindow, err error) {
+        var done bool
+        done, err = future.DoneWithContext(context.Background(), client)
+        if err != nil {
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.MaintenanceWindowsCreateOrUpdateFuture", "Result", future.Response(), "Polling failure")
+        return
+        }
+        if !done {
+        err = azure.NewAsyncOpIncompleteError("mysqlflexibleservers.MaintenanceWindowsCreateOrUpdateFuture")
+        return
+        }
+            sender := autorest.DecorateSender(client, autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
+            if mw.Response.Response, err = future.GetResult(sender); err == nil && mw.Response.Response.StatusCode != http.StatusNoContent {
+            mw, err = client.CreateOrUpdateResponder(mw.Response.Response)
+            if err != nil {
+            err = autorest.NewErrorWithError(err, "mysqlflexibleservers.MaintenanceWindowsCreateOrUpdateFuture", "Result", mw.Response.Response, "Failure responding to request")
+            }
+            }
+            return
+        }
+
+        // MaintenanceWindowsDeleteFuture an abstraction for monitoring and retrieving the results of a long-running
+        // operation.
+        type MaintenanceWindowsDeleteFuture struct {
+            azure.Future
+        }
+        // Result returns the result of the asynchronous operation.
+        // If the operation has not completed it will return an error.
+        func (future *MaintenanceWindowsDeleteFuture) Result(client MaintenanceWindowsClient) (ar autorest.Response, err error) {
+        var done bool
+        done, err = future.DoneWithContext(context.Background(), client)
+        if err != nil {
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.MaintenanceWindowsDeleteFuture", "Result", future.Response(), "Polling failure")
+        return
+        }
+        if !done {
+        err = azure.NewAsyncOpIncompleteError("mysqlflexibleservers.MaintenanceWindowsDeleteFuture")
+        return
+        }
+            ar.Response = future.Response()
+        return
+        }
+
         // NameAvailability represents a resource name availability.
         type NameAvailability struct {
         autorest.Response `json:"-"`
@@ -787,10 +1208,8 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
         Message *string `json:"message,omitempty"`
         // NameAvailable - Indicates whether the resource name is available.
         NameAvailable *bool `json:"nameAvailable,omitempty"`
-        // Name - name of the PostgreSQL server.
-        Name *string `json:"name,omitempty"`
-        // Type - type of the server
-        Type *string `json:"type,omitempty"`
+        // Reason - Reason for name being unavailable.
+        Reason *string `json:"reason,omitempty"`
         }
 
         // NameAvailabilityRequest request from client to check resource name availability.
@@ -959,9 +1378,9 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
 
         // ResourceModelWithAllowedPropertySetSku ...
         type ResourceModelWithAllowedPropertySetSku struct {
-        // Name - The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.
+        // Name - The name of the sku, e.g. Standard_D32s_v3.
         Name *string `json:"name,omitempty"`
-        // Tier - The tier of the particular SKU, e.g. Burstable. Possible values include: 'Burstable', 'GeneralPurpose', 'MemoryOptimized'
+        // Tier - The tier of the particular SKU, e.g. GeneralPurpose. Possible values include: 'Burstable', 'GeneralPurpose', 'MemoryOptimized'
         Tier SkuTier `json:"tier,omitempty"`
         }
 
@@ -1093,14 +1512,12 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
         return nil
         }
 
-        // ServerForUpdate represents a server to be updated.
+        // ServerForUpdate parameters allowed to update for a server.
         type ServerForUpdate struct {
-        // Location - The location the resource resides in.
-        Location *string `json:"location,omitempty"`
         // Sku - The SKU (pricing tier) of the server.
         Sku *Sku `json:"sku,omitempty"`
-        // Properties - Properties of the server.
-        Properties *ServerPropertiesForUpdate `json:"properties,omitempty"`
+        // ServerPropertiesForUpdate - The properties that can be updated for a server.
+        *ServerPropertiesForUpdate `json:"properties,omitempty"`
         // Tags - Application-specific metadata in the form of key-value pairs.
         Tags map[string]*string `json:"tags"`
         }
@@ -1108,25 +1525,63 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
         // MarshalJSON is the custom marshaler for ServerForUpdate.
         func (sfu ServerForUpdate)MarshalJSON() ([]byte, error){
         objectMap := make(map[string]interface{})
-                if(sfu.Location != nil) {
-                objectMap["location"] = sfu.Location
-                }
                 if(sfu.Sku != nil) {
                 objectMap["sku"] = sfu.Sku
                 }
-                if(sfu.Properties != nil) {
-                objectMap["properties"] = sfu.Properties
+                if(sfu.ServerPropertiesForUpdate != nil) {
+                objectMap["properties"] = sfu.ServerPropertiesForUpdate
                 }
                 if(sfu.Tags != nil) {
                 objectMap["tags"] = sfu.Tags
                 }
                 return json.Marshal(objectMap)
         }
+        // UnmarshalJSON is the custom unmarshaler for ServerForUpdate struct.
+        func (sfu *ServerForUpdate) UnmarshalJSON(body []byte) error {
+        var m map[string]*json.RawMessage
+        err := json.Unmarshal(body, &m)
+        if err != nil {
+        return err
+        }
+        for k, v := range  m {
+        switch k {
+                case "sku":
+    if v != nil {
+        var sku Sku
+        err = json.Unmarshal(*v, &sku)
+        if err != nil {
+    return err
+    }
+        sfu.Sku = &sku
+    }
+                case "properties":
+    if v != nil {
+        var serverPropertiesForUpdate ServerPropertiesForUpdate
+        err = json.Unmarshal(*v, &serverPropertiesForUpdate)
+        if err != nil {
+    return err
+    }
+        sfu.ServerPropertiesForUpdate = &serverPropertiesForUpdate
+    }
+                case "tags":
+    if v != nil {
+        var tags map[string]*string
+        err = json.Unmarshal(*v, &tags)
+        if err != nil {
+    return err
+    }
+        sfu.Tags = tags
+    }
+            }
+        }
+
+        return nil
+        }
 
         // ServerListResult a list of servers.
         type ServerListResult struct {
         autorest.Response `json:"-"`
-        // Value - The list of flexible servers
+        // Value - The list of servers
         Value *[]Server `json:"value,omitempty"`
         // NextLink - The link used to get the next page of operations.
         NextLink *string `json:"nextLink,omitempty"`
@@ -1273,32 +1728,41 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
         type ServerProperties struct {
         // AdministratorLogin - The administrator's login name of a server. Can only be specified when the server is being created (and is required for creation).
         AdministratorLogin *string `json:"administratorLogin,omitempty"`
-        // AdministratorLoginPassword - The administrator login password (required for server creation).
+        // AdministratorLoginPassword - The password of the administrator login (required for server creation).
         AdministratorLoginPassword *string `json:"administratorLoginPassword,omitempty"`
-        // Version - PostgreSQL Server version. Possible values include: 'OneTwo'
+        // Version - Server version. Possible values include: 'FiveFullStopSeven'
         Version ServerVersion `json:"version,omitempty"`
-        // State - READ-ONLY; A state of a server that is visible to user. Possible values include: 'ServerStateReady', 'ServerStateDropping', 'ServerStateDisabled', 'ServerStateStarting', 'ServerStateStopping', 'ServerStateStopped', 'ServerStateUpdating'
+        // SslEnforcement - Enable ssl enforcement or not when connect to server. Possible values include: 'SslEnforcementEnumEnabled', 'SslEnforcementEnumDisabled'
+        SslEnforcement SslEnforcementEnum `json:"sslEnforcement,omitempty"`
+        // InfrastructureEncryption - Status showing whether the server enabled infrastructure encryption. Possible values include: 'Enabled', 'Disabled'
+        InfrastructureEncryption InfrastructureEncryptionEnum `json:"infrastructureEncryption,omitempty"`
+        // State - READ-ONLY; The state of a server. Possible values include: 'ServerStateReady', 'ServerStateDropping', 'ServerStateDisabled', 'ServerStateStarting', 'ServerStateStopping', 'ServerStateStopped', 'ServerStateUpdating'
         State ServerState `json:"state,omitempty"`
-        // HaState - READ-ONLY; A state of a HA server that is visible to user. Possible values include: 'NotEnabled', 'CreatingStandby', 'ReplicatingData', 'FailingOver', 'Healthy', 'RemovingStandby'
+        // HaState - READ-ONLY; The state of a HA server. Possible values include: 'NotEnabled', 'CreatingStandby', 'ReplicatingData', 'FailingOver', 'Healthy', 'RemovingStandby'
         HaState ServerHAState `json:"haState,omitempty"`
-        // FullyQualifiedDomainName - READ-ONLY; The fully qualified domain name of a server.
-        FullyQualifiedDomainName *string `json:"fullyQualifiedDomainName,omitempty"`
-        // DisplayName - The display name of a server.
-        DisplayName *string `json:"displayName,omitempty"`
-        // StorageProfile - Storage profile of a server.
-        StorageProfile *StorageProfile `json:"storageProfile,omitempty"`
-        // PublicNetworkAccess - public network access is enabled or not. Possible values include: 'Enabled', 'Disabled'
-        PublicNetworkAccess ServerPublicNetworkAccessState `json:"publicNetworkAccess,omitempty"`
         // StandbyCount - stand by count value can be either 0 or 1
         StandbyCount *int32 `json:"standbyCount,omitempty"`
-        // SourceServerName - The source PostgreSQL server name to restore from.
-        SourceServerName *string `json:"sourceServerName,omitempty"`
-        // PointInTimeUTC - Restore point creation time (ISO8601 format), specifying the time to restore from.
-        PointInTimeUTC *date.Time `json:"pointInTimeUTC,omitempty"`
-        // AvailabilityZone - availability Zone information of the server.
-        AvailabilityZone *string `json:"availabilityZone,omitempty"`
-        VnetInjArgs *ServerPropertiesVnetInjArgs `json:"vnetInjArgs,omitempty"`
-        // CreateMode - The mode to create a new PostgreSQL server. Possible values include: 'Default', 'PointInTimeRestore'
+        // FullyQualifiedDomainName - READ-ONLY; The fully qualified domain name of a server.
+        FullyQualifiedDomainName *string `json:"fullyQualifiedDomainName,omitempty"`
+        // EarliestRestoreDate - Earliest restore point creation time (ISO8601 format)
+        EarliestRestoreDate *date.Time `json:"earliestRestoreDate,omitempty"`
+        // StorageProfile - Storage profile of a server.
+        StorageProfile *StorageProfile `json:"storageProfile,omitempty"`
+        // ReplicationRole - The replication role.
+        ReplicationRole *string `json:"replicationRole,omitempty"`
+        // PrimaryServerID - READ-ONLY; The primary server id of a replica server.
+        PrimaryServerID *string `json:"primaryServerId,omitempty"`
+        // ReplicaCapacity - The maximum number of replicas that a primary server can have.
+        ReplicaCapacity *int32 `json:"replicaCapacity,omitempty"`
+        // PublicNetworkAccess - Whether or not public network access is allowed for this server. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. Possible values include: 'PublicNetworkAccessEnumEnabled', 'PublicNetworkAccessEnumDisabled'
+        PublicNetworkAccess PublicNetworkAccessEnum `json:"publicNetworkAccess,omitempty"`
+        // SourceServerID - The source MySQL server name to restore from.
+        SourceServerID *string `json:"sourceServerId,omitempty"`
+        // RestorePointInTime - Restore point creation time (ISO8601 format), specifying the time to restore from.
+        RestorePointInTime *date.Time `json:"restorePointInTime,omitempty"`
+        // VnetInjArgs - Vnet arguments.
+        VnetInjArgs *VnetInjArgs `json:"vnetInjArgs,omitempty"`
+        // CreateMode - The mode to create a new MySQL server. Possible values include: 'Default', 'PointInTimeRestore', 'Replica'
         CreateMode CreateMode `json:"createMode,omitempty"`
         // Tags - Application-specific metadata in the form of key-value pairs.
         Tags map[string]*string `json:"tags"`
@@ -1316,26 +1780,35 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
                 if(sp.Version != "") {
                 objectMap["version"] = sp.Version
                 }
-                if(sp.DisplayName != nil) {
-                objectMap["displayName"] = sp.DisplayName
+                if(sp.SslEnforcement != "") {
+                objectMap["sslEnforcement"] = sp.SslEnforcement
                 }
-                if(sp.StorageProfile != nil) {
-                objectMap["storageProfile"] = sp.StorageProfile
-                }
-                if(sp.PublicNetworkAccess != "") {
-                objectMap["publicNetworkAccess"] = sp.PublicNetworkAccess
+                if(sp.InfrastructureEncryption != "") {
+                objectMap["infrastructureEncryption"] = sp.InfrastructureEncryption
                 }
                 if(sp.StandbyCount != nil) {
                 objectMap["standbyCount"] = sp.StandbyCount
                 }
-                if(sp.SourceServerName != nil) {
-                objectMap["sourceServerName"] = sp.SourceServerName
+                if(sp.EarliestRestoreDate != nil) {
+                objectMap["earliestRestoreDate"] = sp.EarliestRestoreDate
                 }
-                if(sp.PointInTimeUTC != nil) {
-                objectMap["pointInTimeUTC"] = sp.PointInTimeUTC
+                if(sp.StorageProfile != nil) {
+                objectMap["storageProfile"] = sp.StorageProfile
                 }
-                if(sp.AvailabilityZone != nil) {
-                objectMap["availabilityZone"] = sp.AvailabilityZone
+                if(sp.ReplicationRole != nil) {
+                objectMap["replicationRole"] = sp.ReplicationRole
+                }
+                if(sp.ReplicaCapacity != nil) {
+                objectMap["replicaCapacity"] = sp.ReplicaCapacity
+                }
+                if(sp.PublicNetworkAccess != "") {
+                objectMap["publicNetworkAccess"] = sp.PublicNetworkAccess
+                }
+                if(sp.SourceServerID != nil) {
+                objectMap["sourceServerId"] = sp.SourceServerID
+                }
+                if(sp.RestorePointInTime != nil) {
+                objectMap["restorePointInTime"] = sp.RestorePointInTime
                 }
                 if(sp.VnetInjArgs != nil) {
                 objectMap["vnetInjArgs"] = sp.VnetInjArgs
@@ -1349,28 +1822,22 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
                 return json.Marshal(objectMap)
         }
 
-        // ServerPropertiesForUpdate ...
+        // ServerPropertiesForUpdate the properties that can be updated for a server.
         type ServerPropertiesForUpdate struct {
-        // AdministratorLoginPassword - The password of the administrator login.
-        AdministratorLoginPassword *string `json:"administratorLoginPassword,omitempty"`
-        // VCores - Max compute of a server is 64vCores.
-        VCores *int32 `json:"vCores,omitempty"`
         // StorageProfile - Storage profile of a server.
         StorageProfile *StorageProfile `json:"storageProfile,omitempty"`
+        // AdministratorLoginPassword - The password of the administrator login.
+        AdministratorLoginPassword *string `json:"administratorLoginPassword,omitempty"`
+        // SslEnforcement - Enable ssl enforcement or not when connect to server. Possible values include: 'SslEnforcementEnumEnabled', 'SslEnforcementEnumDisabled'
+        SslEnforcement SslEnforcementEnum `json:"sslEnforcement,omitempty"`
+        // VnetInjArgs - Vnet arguments.
+        VnetInjArgs *VnetInjArgs `json:"vnetInjArgs,omitempty"`
         // StandbyCount - stand by count value can be either 0 or 1
         StandbyCount *int32 `json:"standbyCount,omitempty"`
-        }
-
-        // ServerPropertiesVnetInjArgs ...
-        type ServerPropertiesVnetInjArgs struct {
-        // DelegatedVnetID - delegated vNet ID
-        DelegatedVnetID *string `json:"delegatedVnetID,omitempty"`
-        // DelegatedSubnetName - delegated subnet name
-        DelegatedSubnetName *string `json:"delegatedSubnetName,omitempty"`
-        // DelegatedVnetName - delegated vNet name
-        DelegatedVnetName *string `json:"delegatedVnetName,omitempty"`
-        // DelegatedVnetResourceGroup - delegated vNet resource group name
-        DelegatedVnetResourceGroup *string `json:"delegatedVnetResourceGroup,omitempty"`
+        // PublicNetworkAccess - Whether or not public network access is allowed for this server. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. Possible values include: 'PublicNetworkAccessEnumEnabled', 'PublicNetworkAccessEnumDisabled'
+        PublicNetworkAccess PublicNetworkAccessEnum `json:"publicNetworkAccess,omitempty"`
+        // ReplicationRole - The replication role of the server.
+        ReplicationRole *string `json:"replicationRole,omitempty"`
         }
 
         // ServersCreateFuture an abstraction for monitoring and retrieving the results of a long-running operation.
@@ -1383,18 +1850,18 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
         var done bool
         done, err = future.DoneWithContext(context.Background(), client)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresql.ServersCreateFuture", "Result", future.Response(), "Polling failure")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersCreateFuture", "Result", future.Response(), "Polling failure")
         return
         }
         if !done {
-        err = azure.NewAsyncOpIncompleteError("postgresql.ServersCreateFuture")
+        err = azure.NewAsyncOpIncompleteError("mysqlflexibleservers.ServersCreateFuture")
         return
         }
             sender := autorest.DecorateSender(client, autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
             if s.Response.Response, err = future.GetResult(sender); err == nil && s.Response.Response.StatusCode != http.StatusNoContent {
             s, err = client.CreateResponder(s.Response.Response)
             if err != nil {
-            err = autorest.NewErrorWithError(err, "postgresql.ServersCreateFuture", "Result", s.Response.Response, "Failure responding to request")
+            err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersCreateFuture", "Result", s.Response.Response, "Failure responding to request")
             }
             }
             return
@@ -1410,11 +1877,11 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
         var done bool
         done, err = future.DoneWithContext(context.Background(), client)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresql.ServersDeleteFuture", "Result", future.Response(), "Polling failure")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersDeleteFuture", "Result", future.Response(), "Polling failure")
         return
         }
         if !done {
-        err = azure.NewAsyncOpIncompleteError("postgresql.ServersDeleteFuture")
+        err = azure.NewAsyncOpIncompleteError("mysqlflexibleservers.ServersDeleteFuture")
         return
         }
             ar.Response = future.Response()
@@ -1431,11 +1898,11 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
         var done bool
         done, err = future.DoneWithContext(context.Background(), client)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresql.ServersRestartFuture", "Result", future.Response(), "Polling failure")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersRestartFuture", "Result", future.Response(), "Polling failure")
         return
         }
         if !done {
-        err = azure.NewAsyncOpIncompleteError("postgresql.ServersRestartFuture")
+        err = azure.NewAsyncOpIncompleteError("mysqlflexibleservers.ServersRestartFuture")
         return
         }
             ar.Response = future.Response()
@@ -1452,11 +1919,11 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
         var done bool
         done, err = future.DoneWithContext(context.Background(), client)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresql.ServersStartFuture", "Result", future.Response(), "Polling failure")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersStartFuture", "Result", future.Response(), "Polling failure")
         return
         }
         if !done {
-        err = azure.NewAsyncOpIncompleteError("postgresql.ServersStartFuture")
+        err = azure.NewAsyncOpIncompleteError("mysqlflexibleservers.ServersStartFuture")
         return
         }
             ar.Response = future.Response()
@@ -1473,11 +1940,11 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
         var done bool
         done, err = future.DoneWithContext(context.Background(), client)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresql.ServersStopFuture", "Result", future.Response(), "Polling failure")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersStopFuture", "Result", future.Response(), "Polling failure")
         return
         }
         if !done {
-        err = azure.NewAsyncOpIncompleteError("postgresql.ServersStopFuture")
+        err = azure.NewAsyncOpIncompleteError("mysqlflexibleservers.ServersStopFuture")
         return
         }
             ar.Response = future.Response()
@@ -1494,28 +1961,28 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
         var done bool
         done, err = future.DoneWithContext(context.Background(), client)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresql.ServersUpdateFuture", "Result", future.Response(), "Polling failure")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersUpdateFuture", "Result", future.Response(), "Polling failure")
         return
         }
         if !done {
-        err = azure.NewAsyncOpIncompleteError("postgresql.ServersUpdateFuture")
+        err = azure.NewAsyncOpIncompleteError("mysqlflexibleservers.ServersUpdateFuture")
         return
         }
             sender := autorest.DecorateSender(client, autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
             if s.Response.Response, err = future.GetResult(sender); err == nil && s.Response.Response.StatusCode != http.StatusNoContent {
             s, err = client.UpdateResponder(s.Response.Response)
             if err != nil {
-            err = autorest.NewErrorWithError(err, "postgresql.ServersUpdateFuture", "Result", s.Response.Response, "Failure responding to request")
+            err = autorest.NewErrorWithError(err, "mysqlflexibleservers.ServersUpdateFuture", "Result", s.Response.Response, "Failure responding to request")
             }
             }
             return
         }
 
-        // Sku sku information related properties of a server.
+        // Sku billing information related properties of a server.
         type Sku struct {
-        // Name - The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.
+        // Name - The name of the sku, e.g. Standard_D32s_v3.
         Name *string `json:"name,omitempty"`
-        // Tier - The tier of the particular SKU, e.g. Burstable. Possible values include: 'Burstable', 'GeneralPurpose', 'MemoryOptimized'
+        // Tier - The tier of the particular SKU, e.g. GeneralPurpose. Possible values include: 'Burstable', 'GeneralPurpose', 'MemoryOptimized'
         Tier SkuTier `json:"tier,omitempty"`
         }
 
@@ -1525,6 +1992,10 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
         BackupRetentionDays *int32 `json:"backupRetentionDays,omitempty"`
         // StorageMB - Max storage allowed for a server.
         StorageMB *int32 `json:"storageMB,omitempty"`
+        // StorageIops - Storage IOPS for a server.
+        StorageIops *int32 `json:"storageIops,omitempty"`
+        // StorageAutogrow - Enable Storage Auto Grow. Possible values include: 'StorageAutogrowEnabled', 'StorageAutogrowDisabled'
+        StorageAutogrow StorageAutogrow `json:"storageAutogrow,omitempty"`
         }
 
         // TrackedResource the resource model definition for a ARM tracked top level resource
@@ -1551,5 +2022,15 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/postgresql/mgmt/flexibl
                 objectMap["location"] = tr.Location
                 }
                 return json.Marshal(objectMap)
+        }
+
+        // VnetInjArgs vnet properties of a server
+        type VnetInjArgs struct {
+        // DelegatedVnetID - delegated vNet ID
+        DelegatedVnetID *string `json:"delegatedVnetID,omitempty"`
+        // DelegatedSubnetName - delegated subnet name
+        DelegatedSubnetName *string `json:"delegatedSubnetName,omitempty"`
+        // DelegatedVnetName - delegated vNet name
+        DelegatedVnetName *string `json:"delegatedVnetName,omitempty"`
         }
 

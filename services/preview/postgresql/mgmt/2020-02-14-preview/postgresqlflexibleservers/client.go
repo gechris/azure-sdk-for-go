@@ -1,8 +1,10 @@
-// Package mysql implements the Azure ARM Mysql service API version 2020-07-01-privatepreview.
+// Package postgresqlflexibleservers implements the Azure ARM Postgresqlflexibleservers service API version
+// 2020-02-14-privatepreview.
 //
-// The Microsoft Azure management API provides create, read, update, and delete functionality for Azure MySQL resources
-// including servers, databases, firewall rules, VNET rules, log files and configurations with new business model.
-package mysql
+// The Microsoft Azure management API provides create, read, update, and delete functionality for Azure PostgreSQL
+// resources including servers, databases, firewall rules, VNET rules, security alert policies, log files and
+// configurations with new business model.
+package postgresqlflexibleservers
 
 // Copyright (c) Microsoft and contributors.  All rights reserved.
 //
@@ -26,10 +28,10 @@ import (
 )
 
 const (
-// DefaultBaseURI is the default URI used for the service Mysql
+// DefaultBaseURI is the default URI used for the service Postgresqlflexibleservers
 DefaultBaseURI = "https://management.azure.com")
 
-// BaseClient is the base client for Mysql.
+// BaseClient is the base client for Postgresqlflexibleservers.
 type BaseClient struct {
     autorest.Client
     BaseURI string

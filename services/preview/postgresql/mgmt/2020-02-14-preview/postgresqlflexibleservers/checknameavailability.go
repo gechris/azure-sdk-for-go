@@ -1,4 +1,4 @@
-package postgresql
+package postgresqlflexibleservers
 
 // Copyright (c) Microsoft and contributors.  All rights reserved.
 //
@@ -63,25 +63,25 @@ func (client CheckNameAvailabilityClient) Execute(ctx context.Context, nameAvail
          Constraints: []validation.Constraint{	{Target: "client.SubscriptionID", Name: validation.MinLength, Rule: 1, Chain: nil }}},
         { TargetValue: nameAvailabilityRequest,
          Constraints: []validation.Constraint{	{Target: "nameAvailabilityRequest.Name", Name: validation.Null, Rule: true, Chain: nil }}}}); err != nil {
-        return result, validation.NewError("postgresql.CheckNameAvailabilityClient", "Execute", err.Error())
+        return result, validation.NewError("postgresqlflexibleservers.CheckNameAvailabilityClient", "Execute", err.Error())
         }
 
         req, err := client.ExecutePreparer(ctx, nameAvailabilityRequest)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "postgresql.CheckNameAvailabilityClient", "Execute", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.CheckNameAvailabilityClient", "Execute", nil , "Failure preparing request")
     return
     }
 
         resp, err := client.ExecuteSender(req)
         if err != nil {
         result.Response = autorest.Response{Response: resp}
-        err = autorest.NewErrorWithError(err, "postgresql.CheckNameAvailabilityClient", "Execute", resp, "Failure sending request")
+        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.CheckNameAvailabilityClient", "Execute", resp, "Failure sending request")
         return
         }
 
         result, err = client.ExecuteResponder(resp)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresql.CheckNameAvailabilityClient", "Execute", resp, "Failure responding to request")
+        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.CheckNameAvailabilityClient", "Execute", resp, "Failure responding to request")
         }
 
     return

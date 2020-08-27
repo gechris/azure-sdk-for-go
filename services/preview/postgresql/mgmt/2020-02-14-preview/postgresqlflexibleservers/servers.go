@@ -1,4 +1,4 @@
-package postgresql
+package postgresqlflexibleservers
 
 // Copyright (c) Microsoft and contributors.  All rights reserved.
 //
@@ -66,18 +66,18 @@ func (client ServersClient) Create(ctx context.Context, resourceGroupName string
          Constraints: []validation.Constraint{	{Target: "resourceGroupName", Name: validation.MaxLength, Rule: 90, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.MinLength, Rule: 1, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.Pattern, Rule: `^[-\w\._\(\)]+$`, Chain: nil }}}}); err != nil {
-        return result, validation.NewError("postgresql.ServersClient", "Create", err.Error())
+        return result, validation.NewError("postgresqlflexibleservers.ServersClient", "Create", err.Error())
         }
 
         req, err := client.CreatePreparer(ctx, resourceGroupName, serverName, parameters)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "postgresql.ServersClient", "Create", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "Create", nil , "Failure preparing request")
     return
     }
 
         result, err = client.CreateSender(req)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresql.ServersClient", "Create", result.Response(), "Failure sending request")
+        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "Create", result.Response(), "Failure sending request")
         return
         }
 
@@ -153,18 +153,18 @@ func (client ServersClient) Delete(ctx context.Context, resourceGroupName string
          Constraints: []validation.Constraint{	{Target: "resourceGroupName", Name: validation.MaxLength, Rule: 90, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.MinLength, Rule: 1, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.Pattern, Rule: `^[-\w\._\(\)]+$`, Chain: nil }}}}); err != nil {
-        return result, validation.NewError("postgresql.ServersClient", "Delete", err.Error())
+        return result, validation.NewError("postgresqlflexibleservers.ServersClient", "Delete", err.Error())
         }
 
         req, err := client.DeletePreparer(ctx, resourceGroupName, serverName)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "postgresql.ServersClient", "Delete", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "Delete", nil , "Failure preparing request")
     return
     }
 
         result, err = client.DeleteSender(req)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresql.ServersClient", "Delete", result.Response(), "Failure sending request")
+        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "Delete", result.Response(), "Failure sending request")
         return
         }
 
@@ -237,25 +237,25 @@ func (client ServersClient) Get(ctx context.Context, resourceGroupName string, s
          Constraints: []validation.Constraint{	{Target: "resourceGroupName", Name: validation.MaxLength, Rule: 90, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.MinLength, Rule: 1, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.Pattern, Rule: `^[-\w\._\(\)]+$`, Chain: nil }}}}); err != nil {
-        return result, validation.NewError("postgresql.ServersClient", "Get", err.Error())
+        return result, validation.NewError("postgresqlflexibleservers.ServersClient", "Get", err.Error())
         }
 
         req, err := client.GetPreparer(ctx, resourceGroupName, serverName)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "postgresql.ServersClient", "Get", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "Get", nil , "Failure preparing request")
     return
     }
 
         resp, err := client.GetSender(req)
         if err != nil {
         result.Response = autorest.Response{Response: resp}
-        err = autorest.NewErrorWithError(err, "postgresql.ServersClient", "Get", resp, "Failure sending request")
+        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "Get", resp, "Failure sending request")
         return
         }
 
         result, err = client.GetResponder(resp)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresql.ServersClient", "Get", resp, "Failure responding to request")
+        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "Get", resp, "Failure responding to request")
         }
 
     return
@@ -315,26 +315,26 @@ func (client ServersClient) List(ctx context.Context) (result ServerListResultPa
         if err := validation.Validate([]validation.Validation{
         { TargetValue: client.SubscriptionID,
          Constraints: []validation.Constraint{	{Target: "client.SubscriptionID", Name: validation.MinLength, Rule: 1, Chain: nil }}}}); err != nil {
-        return result, validation.NewError("postgresql.ServersClient", "List", err.Error())
+        return result, validation.NewError("postgresqlflexibleservers.ServersClient", "List", err.Error())
         }
 
             result.fn = client.listNextResults
     req, err := client.ListPreparer(ctx)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "postgresql.ServersClient", "List", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "List", nil , "Failure preparing request")
     return
     }
 
         resp, err := client.ListSender(req)
         if err != nil {
         result.slr.Response = autorest.Response{Response: resp}
-        err = autorest.NewErrorWithError(err, "postgresql.ServersClient", "List", resp, "Failure sending request")
+        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "List", resp, "Failure sending request")
         return
         }
 
         result.slr, err = client.ListResponder(resp)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresql.ServersClient", "List", resp, "Failure responding to request")
+        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "List", resp, "Failure responding to request")
         }
             if result.slr.hasNextLink() && result.slr.IsEmpty() {
             err = result.NextWithContext(ctx)
@@ -384,7 +384,7 @@ autorest.WithQueryParameters(queryParameters))
             func (client ServersClient) listNextResults(ctx context.Context, lastResults ServerListResult) (result ServerListResult, err error) {
             req, err := lastResults.serverListResultPreparer(ctx)
             if err != nil {
-            return result, autorest.NewErrorWithError(err, "postgresql.ServersClient", "listNextResults", nil , "Failure preparing next results request")
+            return result, autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "listNextResults", nil , "Failure preparing next results request")
             }
             if req == nil {
             return
@@ -392,11 +392,11 @@ autorest.WithQueryParameters(queryParameters))
             resp, err := client.ListSender(req)
             if err != nil {
             result.Response = autorest.Response{Response: resp}
-            return result, autorest.NewErrorWithError(err, "postgresql.ServersClient", "listNextResults", resp, "Failure sending next results request")
+            return result, autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "listNextResults", resp, "Failure sending next results request")
             }
             result, err = client.ListResponder(resp)
             if err != nil {
-            err = autorest.NewErrorWithError(err, "postgresql.ServersClient", "listNextResults", resp, "Failure responding to next results request")
+            err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "listNextResults", resp, "Failure responding to next results request")
             }
             return
                     }
@@ -438,26 +438,26 @@ func (client ServersClient) ListByResourceGroup(ctx context.Context, resourceGro
          Constraints: []validation.Constraint{	{Target: "resourceGroupName", Name: validation.MaxLength, Rule: 90, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.MinLength, Rule: 1, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.Pattern, Rule: `^[-\w\._\(\)]+$`, Chain: nil }}}}); err != nil {
-        return result, validation.NewError("postgresql.ServersClient", "ListByResourceGroup", err.Error())
+        return result, validation.NewError("postgresqlflexibleservers.ServersClient", "ListByResourceGroup", err.Error())
         }
 
             result.fn = client.listByResourceGroupNextResults
     req, err := client.ListByResourceGroupPreparer(ctx, resourceGroupName)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "postgresql.ServersClient", "ListByResourceGroup", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "ListByResourceGroup", nil , "Failure preparing request")
     return
     }
 
         resp, err := client.ListByResourceGroupSender(req)
         if err != nil {
         result.slr.Response = autorest.Response{Response: resp}
-        err = autorest.NewErrorWithError(err, "postgresql.ServersClient", "ListByResourceGroup", resp, "Failure sending request")
+        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "ListByResourceGroup", resp, "Failure sending request")
         return
         }
 
         result.slr, err = client.ListByResourceGroupResponder(resp)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresql.ServersClient", "ListByResourceGroup", resp, "Failure responding to request")
+        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "ListByResourceGroup", resp, "Failure responding to request")
         }
             if result.slr.hasNextLink() && result.slr.IsEmpty() {
             err = result.NextWithContext(ctx)
@@ -508,7 +508,7 @@ autorest.WithQueryParameters(queryParameters))
             func (client ServersClient) listByResourceGroupNextResults(ctx context.Context, lastResults ServerListResult) (result ServerListResult, err error) {
             req, err := lastResults.serverListResultPreparer(ctx)
             if err != nil {
-            return result, autorest.NewErrorWithError(err, "postgresql.ServersClient", "listByResourceGroupNextResults", nil , "Failure preparing next results request")
+            return result, autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "listByResourceGroupNextResults", nil , "Failure preparing next results request")
             }
             if req == nil {
             return
@@ -516,11 +516,11 @@ autorest.WithQueryParameters(queryParameters))
             resp, err := client.ListByResourceGroupSender(req)
             if err != nil {
             result.Response = autorest.Response{Response: resp}
-            return result, autorest.NewErrorWithError(err, "postgresql.ServersClient", "listByResourceGroupNextResults", resp, "Failure sending next results request")
+            return result, autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "listByResourceGroupNextResults", resp, "Failure sending next results request")
             }
             result, err = client.ListByResourceGroupResponder(resp)
             if err != nil {
-            err = autorest.NewErrorWithError(err, "postgresql.ServersClient", "listByResourceGroupNextResults", resp, "Failure responding to next results request")
+            err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "listByResourceGroupNextResults", resp, "Failure responding to next results request")
             }
             return
                     }
@@ -563,18 +563,18 @@ func (client ServersClient) Restart(ctx context.Context, resourceGroupName strin
          Constraints: []validation.Constraint{	{Target: "resourceGroupName", Name: validation.MaxLength, Rule: 90, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.MinLength, Rule: 1, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.Pattern, Rule: `^[-\w\._\(\)]+$`, Chain: nil }}}}); err != nil {
-        return result, validation.NewError("postgresql.ServersClient", "Restart", err.Error())
+        return result, validation.NewError("postgresqlflexibleservers.ServersClient", "Restart", err.Error())
         }
 
         req, err := client.RestartPreparer(ctx, resourceGroupName, serverName)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "postgresql.ServersClient", "Restart", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "Restart", nil , "Failure preparing request")
     return
     }
 
         result, err = client.RestartSender(req)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresql.ServersClient", "Restart", result.Response(), "Failure sending request")
+        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "Restart", result.Response(), "Failure sending request")
         return
         }
 
@@ -647,18 +647,18 @@ func (client ServersClient) Start(ctx context.Context, resourceGroupName string,
          Constraints: []validation.Constraint{	{Target: "resourceGroupName", Name: validation.MaxLength, Rule: 90, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.MinLength, Rule: 1, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.Pattern, Rule: `^[-\w\._\(\)]+$`, Chain: nil }}}}); err != nil {
-        return result, validation.NewError("postgresql.ServersClient", "Start", err.Error())
+        return result, validation.NewError("postgresqlflexibleservers.ServersClient", "Start", err.Error())
         }
 
         req, err := client.StartPreparer(ctx, resourceGroupName, serverName)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "postgresql.ServersClient", "Start", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "Start", nil , "Failure preparing request")
     return
     }
 
         result, err = client.StartSender(req)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresql.ServersClient", "Start", result.Response(), "Failure sending request")
+        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "Start", result.Response(), "Failure sending request")
         return
         }
 
@@ -731,18 +731,18 @@ func (client ServersClient) Stop(ctx context.Context, resourceGroupName string, 
          Constraints: []validation.Constraint{	{Target: "resourceGroupName", Name: validation.MaxLength, Rule: 90, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.MinLength, Rule: 1, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.Pattern, Rule: `^[-\w\._\(\)]+$`, Chain: nil }}}}); err != nil {
-        return result, validation.NewError("postgresql.ServersClient", "Stop", err.Error())
+        return result, validation.NewError("postgresqlflexibleservers.ServersClient", "Stop", err.Error())
         }
 
         req, err := client.StopPreparer(ctx, resourceGroupName, serverName)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "postgresql.ServersClient", "Stop", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "Stop", nil , "Failure preparing request")
     return
     }
 
         result, err = client.StopSender(req)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresql.ServersClient", "Stop", result.Response(), "Failure sending request")
+        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "Stop", result.Response(), "Failure sending request")
         return
         }
 
@@ -817,18 +817,18 @@ func (client ServersClient) Update(ctx context.Context, resourceGroupName string
          Constraints: []validation.Constraint{	{Target: "resourceGroupName", Name: validation.MaxLength, Rule: 90, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.MinLength, Rule: 1, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.Pattern, Rule: `^[-\w\._\(\)]+$`, Chain: nil }}}}); err != nil {
-        return result, validation.NewError("postgresql.ServersClient", "Update", err.Error())
+        return result, validation.NewError("postgresqlflexibleservers.ServersClient", "Update", err.Error())
         }
 
         req, err := client.UpdatePreparer(ctx, resourceGroupName, serverName, parameters)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "postgresql.ServersClient", "Update", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "Update", nil , "Failure preparing request")
     return
     }
 
         result, err = client.UpdateSender(req)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresql.ServersClient", "Update", result.Response(), "Failure sending request")
+        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.ServersClient", "Update", result.Response(), "Failure sending request")
         return
         }
 

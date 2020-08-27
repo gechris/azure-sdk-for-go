@@ -1,4 +1,4 @@
-package postgresql
+package mysqlflexibleservers
 
 // Copyright (c) Microsoft and contributors.  All rights reserved.
 //
@@ -27,8 +27,8 @@ import (
 )
 
 // FirewallRulesClient is the the Microsoft Azure management API provides create, read, update, and delete
-// functionality for Azure PostgreSQL resources including servers, databases, firewall rules, VNET rules, security
-// alert policies, log files and configurations with new business model.
+// functionality for Azure MySQL resources including servers, databases, firewall rules, VNET rules, log files and
+// configurations with new business model.
 type FirewallRulesClient struct {
     BaseClient
 }
@@ -76,18 +76,18 @@ func (client FirewallRulesClient) CreateOrUpdate(ctx context.Context, resourceGr
         Chain: []validation.Constraint{	{Target: "parameters.FirewallRuleProperties.EndIPAddress", Name: validation.Pattern, Rule: `^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$`, Chain: nil },
         }},
         }}}}}); err != nil {
-        return result, validation.NewError("postgresql.FirewallRulesClient", "CreateOrUpdate", err.Error())
+        return result, validation.NewError("mysqlflexibleservers.FirewallRulesClient", "CreateOrUpdate", err.Error())
         }
 
         req, err := client.CreateOrUpdatePreparer(ctx, resourceGroupName, serverName, firewallRuleName, parameters)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "postgresql.FirewallRulesClient", "CreateOrUpdate", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "mysqlflexibleservers.FirewallRulesClient", "CreateOrUpdate", nil , "Failure preparing request")
     return
     }
 
         result, err = client.CreateOrUpdateSender(req)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresql.FirewallRulesClient", "CreateOrUpdate", result.Response(), "Failure sending request")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.FirewallRulesClient", "CreateOrUpdate", result.Response(), "Failure sending request")
         return
         }
 
@@ -103,7 +103,7 @@ func (client FirewallRulesClient) CreateOrUpdate(ctx context.Context, resourceGr
         "subscriptionId": autorest.Encode("path",client.SubscriptionID),
         }
 
-            const APIVersion = "2020-02-14-privatepreview"
+            const APIVersion = "2020-07-01-privatepreview"
     queryParameters := map[string]interface{} {
     "api-version": APIVersion,
     }
@@ -112,7 +112,7 @@ func (client FirewallRulesClient) CreateOrUpdate(ctx context.Context, resourceGr
 autorest.AsContentType("application/json; charset=utf-8"),
 autorest.AsPut(),
 autorest.WithBaseURL(client.BaseURI),
-autorest.WithPathParameters("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForPostgreSql/flexibleServers/{serverName}/firewallRules/{firewallRuleName}",pathParameters),
+autorest.WithPathParameters("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForMySql/flexibleServers/{serverName}/firewallRules/{firewallRuleName}",pathParameters),
 autorest.WithJSON(parameters),
 autorest.WithQueryParameters(queryParameters))
     return preparer.Prepare((&http.Request{}).WithContext(ctx))
@@ -142,7 +142,7 @@ autorest.WithQueryParameters(queryParameters))
             return
     }
 
-// Delete deletes a PostgreSQL server firewall rule.
+// Delete deletes a firewall rule.
     // Parameters:
         // resourceGroupName - the name of the resource group. The name is case insensitive.
         // serverName - the name of the server.
@@ -165,18 +165,18 @@ func (client FirewallRulesClient) Delete(ctx context.Context, resourceGroupName 
          Constraints: []validation.Constraint{	{Target: "resourceGroupName", Name: validation.MaxLength, Rule: 90, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.MinLength, Rule: 1, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.Pattern, Rule: `^[-\w\._\(\)]+$`, Chain: nil }}}}); err != nil {
-        return result, validation.NewError("postgresql.FirewallRulesClient", "Delete", err.Error())
+        return result, validation.NewError("mysqlflexibleservers.FirewallRulesClient", "Delete", err.Error())
         }
 
         req, err := client.DeletePreparer(ctx, resourceGroupName, serverName, firewallRuleName)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "postgresql.FirewallRulesClient", "Delete", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "mysqlflexibleservers.FirewallRulesClient", "Delete", nil , "Failure preparing request")
     return
     }
 
         result, err = client.DeleteSender(req)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresql.FirewallRulesClient", "Delete", result.Response(), "Failure sending request")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.FirewallRulesClient", "Delete", result.Response(), "Failure sending request")
         return
         }
 
@@ -192,7 +192,7 @@ func (client FirewallRulesClient) Delete(ctx context.Context, resourceGroupName 
         "subscriptionId": autorest.Encode("path",client.SubscriptionID),
         }
 
-            const APIVersion = "2020-02-14-privatepreview"
+            const APIVersion = "2020-07-01-privatepreview"
     queryParameters := map[string]interface{} {
     "api-version": APIVersion,
     }
@@ -200,7 +200,7 @@ func (client FirewallRulesClient) Delete(ctx context.Context, resourceGroupName 
     preparer := autorest.CreatePreparer(
 autorest.AsDelete(),
 autorest.WithBaseURL(client.BaseURI),
-autorest.WithPathParameters("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForPostgreSql/flexibleServers/{serverName}/firewallRules/{firewallRuleName}",pathParameters),
+autorest.WithPathParameters("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForMySql/flexibleServers/{serverName}/firewallRules/{firewallRuleName}",pathParameters),
 autorest.WithQueryParameters(queryParameters))
     return preparer.Prepare((&http.Request{}).WithContext(ctx))
     }
@@ -228,7 +228,7 @@ autorest.WithQueryParameters(queryParameters))
             return
     }
 
-// Get list all the firewall rules in a given server.
+// Get gets information about a server firewall rule.
     // Parameters:
         // resourceGroupName - the name of the resource group. The name is case insensitive.
         // serverName - the name of the server.
@@ -251,25 +251,25 @@ func (client FirewallRulesClient) Get(ctx context.Context, resourceGroupName str
          Constraints: []validation.Constraint{	{Target: "resourceGroupName", Name: validation.MaxLength, Rule: 90, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.MinLength, Rule: 1, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.Pattern, Rule: `^[-\w\._\(\)]+$`, Chain: nil }}}}); err != nil {
-        return result, validation.NewError("postgresql.FirewallRulesClient", "Get", err.Error())
+        return result, validation.NewError("mysqlflexibleservers.FirewallRulesClient", "Get", err.Error())
         }
 
         req, err := client.GetPreparer(ctx, resourceGroupName, serverName, firewallRuleName)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "postgresql.FirewallRulesClient", "Get", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "mysqlflexibleservers.FirewallRulesClient", "Get", nil , "Failure preparing request")
     return
     }
 
         resp, err := client.GetSender(req)
         if err != nil {
         result.Response = autorest.Response{Response: resp}
-        err = autorest.NewErrorWithError(err, "postgresql.FirewallRulesClient", "Get", resp, "Failure sending request")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.FirewallRulesClient", "Get", resp, "Failure sending request")
         return
         }
 
         result, err = client.GetResponder(resp)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresql.FirewallRulesClient", "Get", resp, "Failure responding to request")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.FirewallRulesClient", "Get", resp, "Failure responding to request")
         }
 
     return
@@ -284,7 +284,7 @@ func (client FirewallRulesClient) Get(ctx context.Context, resourceGroupName str
         "subscriptionId": autorest.Encode("path",client.SubscriptionID),
         }
 
-            const APIVersion = "2020-02-14-privatepreview"
+            const APIVersion = "2020-07-01-privatepreview"
     queryParameters := map[string]interface{} {
     "api-version": APIVersion,
     }
@@ -292,7 +292,7 @@ func (client FirewallRulesClient) Get(ctx context.Context, resourceGroupName str
     preparer := autorest.CreatePreparer(
 autorest.AsGet(),
 autorest.WithBaseURL(client.BaseURI),
-autorest.WithPathParameters("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForPostgreSql/flexibleServers/{serverName}/firewallRules/{firewallRuleName}",pathParameters),
+autorest.WithPathParameters("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForMySql/flexibleServers/{serverName}/firewallRules/{firewallRuleName}",pathParameters),
 autorest.WithQueryParameters(queryParameters))
     return preparer.Prepare((&http.Request{}).WithContext(ctx))
     }
@@ -315,7 +315,7 @@ autorest.WithQueryParameters(queryParameters))
             return
     }
 
-// ListByServer list all the firewall rules in a given PostgreSQL server.
+// ListByServer list all the firewall rules in a given server.
     // Parameters:
         // resourceGroupName - the name of the resource group. The name is case insensitive.
         // serverName - the name of the server.
@@ -337,26 +337,26 @@ func (client FirewallRulesClient) ListByServer(ctx context.Context, resourceGrou
          Constraints: []validation.Constraint{	{Target: "resourceGroupName", Name: validation.MaxLength, Rule: 90, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.MinLength, Rule: 1, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.Pattern, Rule: `^[-\w\._\(\)]+$`, Chain: nil }}}}); err != nil {
-        return result, validation.NewError("postgresql.FirewallRulesClient", "ListByServer", err.Error())
+        return result, validation.NewError("mysqlflexibleservers.FirewallRulesClient", "ListByServer", err.Error())
         }
 
             result.fn = client.listByServerNextResults
     req, err := client.ListByServerPreparer(ctx, resourceGroupName, serverName)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "postgresql.FirewallRulesClient", "ListByServer", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "mysqlflexibleservers.FirewallRulesClient", "ListByServer", nil , "Failure preparing request")
     return
     }
 
         resp, err := client.ListByServerSender(req)
         if err != nil {
         result.frlr.Response = autorest.Response{Response: resp}
-        err = autorest.NewErrorWithError(err, "postgresql.FirewallRulesClient", "ListByServer", resp, "Failure sending request")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.FirewallRulesClient", "ListByServer", resp, "Failure sending request")
         return
         }
 
         result.frlr, err = client.ListByServerResponder(resp)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresql.FirewallRulesClient", "ListByServer", resp, "Failure responding to request")
+        err = autorest.NewErrorWithError(err, "mysqlflexibleservers.FirewallRulesClient", "ListByServer", resp, "Failure responding to request")
         }
             if result.frlr.hasNextLink() && result.frlr.IsEmpty() {
             err = result.NextWithContext(ctx)
@@ -373,7 +373,7 @@ func (client FirewallRulesClient) ListByServer(ctx context.Context, resourceGrou
         "subscriptionId": autorest.Encode("path",client.SubscriptionID),
         }
 
-            const APIVersion = "2020-02-14-privatepreview"
+            const APIVersion = "2020-07-01-privatepreview"
     queryParameters := map[string]interface{} {
     "api-version": APIVersion,
     }
@@ -381,7 +381,7 @@ func (client FirewallRulesClient) ListByServer(ctx context.Context, resourceGrou
     preparer := autorest.CreatePreparer(
 autorest.AsGet(),
 autorest.WithBaseURL(client.BaseURI),
-autorest.WithPathParameters("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForPostgreSql/flexibleServers/{serverName}/firewallRules",pathParameters),
+autorest.WithPathParameters("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForMySql/flexibleServers/{serverName}/firewallRules",pathParameters),
 autorest.WithQueryParameters(queryParameters))
     return preparer.Prepare((&http.Request{}).WithContext(ctx))
     }
@@ -408,7 +408,7 @@ autorest.WithQueryParameters(queryParameters))
             func (client FirewallRulesClient) listByServerNextResults(ctx context.Context, lastResults FirewallRuleListResult) (result FirewallRuleListResult, err error) {
             req, err := lastResults.firewallRuleListResultPreparer(ctx)
             if err != nil {
-            return result, autorest.NewErrorWithError(err, "postgresql.FirewallRulesClient", "listByServerNextResults", nil , "Failure preparing next results request")
+            return result, autorest.NewErrorWithError(err, "mysqlflexibleservers.FirewallRulesClient", "listByServerNextResults", nil , "Failure preparing next results request")
             }
             if req == nil {
             return
@@ -416,11 +416,11 @@ autorest.WithQueryParameters(queryParameters))
             resp, err := client.ListByServerSender(req)
             if err != nil {
             result.Response = autorest.Response{Response: resp}
-            return result, autorest.NewErrorWithError(err, "postgresql.FirewallRulesClient", "listByServerNextResults", resp, "Failure sending next results request")
+            return result, autorest.NewErrorWithError(err, "mysqlflexibleservers.FirewallRulesClient", "listByServerNextResults", resp, "Failure sending next results request")
             }
             result, err = client.ListByServerResponder(resp)
             if err != nil {
-            err = autorest.NewErrorWithError(err, "postgresql.FirewallRulesClient", "listByServerNextResults", resp, "Failure responding to next results request")
+            err = autorest.NewErrorWithError(err, "mysqlflexibleservers.FirewallRulesClient", "listByServerNextResults", resp, "Failure responding to next results request")
             }
             return
                     }

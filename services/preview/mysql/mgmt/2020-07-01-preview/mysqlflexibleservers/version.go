@@ -1,4 +1,4 @@
-package mysql
+package mysqlflexibleservers
 
 
 // Copyright (c) Microsoft and contributors.  All rights reserved.
@@ -21,7 +21,7 @@ package mysql
 
 // UserAgent returns the UserAgent string to use when sending http.Requests.
 func UserAgent() string {
-    return "Azure-SDK-For-Go/" + Version() + " mysql/2020-07-01-privatepreview"
+    return "Azure-SDK-For-Go/" + Version() + " mysqlflexibleservers/2020-07-01-privatepreview"
 }
 
 // Version returns the semantic version (see http://semver.org) of the client.
