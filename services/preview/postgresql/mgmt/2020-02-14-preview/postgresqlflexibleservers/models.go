@@ -31,16 +31,170 @@ import (
 // The package's fully qualified name.
 const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt/2020-02-14-preview/postgresqlflexibleservers"
 
-        // AzureEntityResource the resource model definition for a Azure Resource Manager resource with an etag.
+        // AzureEntityResource the resource model definition for an Azure Resource Manager resource with an etag.
         type AzureEntityResource struct {
         // Etag - READ-ONLY; Resource Etag.
         Etag *string `json:"etag,omitempty"`
-        // ID - READ-ONLY; Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+        // ID - READ-ONLY; Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
         ID *string `json:"id,omitempty"`
         // Name - READ-ONLY; The name of the resource
         Name *string `json:"name,omitempty"`
-        // Type - READ-ONLY; The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+        // Type - READ-ONLY; The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
         Type *string `json:"type,omitempty"`
+        }
+
+        // CapabilitiesListResult location capability
+        type CapabilitiesListResult struct {
+        autorest.Response `json:"-"`
+        // Value - READ-ONLY; A list of supported capabilities.
+        Value *[]CapabilityProperties `json:"value,omitempty"`
+        // NextLink - READ-ONLY; Link to retrieve next page of results.
+        NextLink *string `json:"nextLink,omitempty"`
+        }
+
+        // CapabilitiesListResultIterator provides access to a complete listing of CapabilityProperties values.
+        type CapabilitiesListResultIterator struct {
+            i int
+            page CapabilitiesListResultPage
+        }
+        // NextWithContext advances to the next value.  If there was an error making
+        // the request the iterator does not advance and the error is returned.
+        func (iter * CapabilitiesListResultIterator) NextWithContext(ctx context.Context) (err error) {
+        if tracing.IsEnabled() {
+        ctx = tracing.StartSpan(ctx, fqdn + "/CapabilitiesListResultIterator.NextWithContext")
+        defer func() {
+        sc := -1
+        if iter.Response().Response.Response != nil {
+        sc = iter.Response().Response.Response.StatusCode
+        }
+        tracing.EndSpan(ctx, sc, err)
+        }()
+        }
+        iter.i++
+        if iter.i < len(iter. page.Values()) {
+        return nil
+        }
+        err = iter.page.NextWithContext(ctx)
+        if err != nil {
+        iter. i--
+        return err
+        }
+        iter.i = 0
+        return nil
+        }
+        // Next advances to the next value.  If there was an error making
+        // the request the iterator does not advance and the error is returned.
+        // Deprecated: Use NextWithContext() instead.
+        func (iter * CapabilitiesListResultIterator) Next() error {
+        return iter.NextWithContext(context.Background())
+        }
+        // NotDone returns true if the enumeration should be started or is not yet complete.
+        func (iter CapabilitiesListResultIterator) NotDone() bool {
+        return iter.page.NotDone() && iter.i < len(iter. page.Values())
+        }
+        // Response returns the raw server response from the last page request.
+        func (iter CapabilitiesListResultIterator) Response() CapabilitiesListResult {
+        return iter.page.Response()
+        }
+        // Value returns the current value or a zero-initialized value if the
+        // iterator has advanced beyond the end of the collection.
+        func (iter CapabilitiesListResultIterator) Value() CapabilityProperties {
+        if !iter.page.NotDone() {
+        return CapabilityProperties{}
+        }
+        return iter.page.Values()[iter.i]
+        }
+        // Creates a new instance of the CapabilitiesListResultIterator type.
+        func NewCapabilitiesListResultIterator (page CapabilitiesListResultPage) CapabilitiesListResultIterator {
+            return CapabilitiesListResultIterator{page: page}
+        }
+
+
+            // IsEmpty returns true if the ListResult contains no values.
+            func (clr CapabilitiesListResult) IsEmpty() bool {
+            return clr.Value == nil || len(*clr.Value) == 0
+            }
+
+            // hasNextLink returns true if the NextLink is not empty.
+            func (clr CapabilitiesListResult) hasNextLink() bool {
+            return clr.NextLink != nil && len(*clr.NextLink) != 0
+            }
+                // capabilitiesListResultPreparer prepares a request to retrieve the next set of results.
+                // It returns nil if no more results exist.
+                func (clr CapabilitiesListResult) capabilitiesListResultPreparer(ctx context.Context) (*http.Request, error) {
+                if !clr.hasNextLink() {
+                return nil, nil
+                }
+                return autorest.Prepare((&http.Request{}).WithContext(ctx),
+                autorest.AsJSON(),
+                autorest.AsGet(),
+                autorest.WithBaseURL(to.String( clr.NextLink)));
+                }
+
+        // CapabilitiesListResultPage contains a page of CapabilityProperties values.
+        type CapabilitiesListResultPage struct {
+            fn func(context.Context, CapabilitiesListResult) (CapabilitiesListResult, error)
+            clr CapabilitiesListResult
+        }
+
+        // NextWithContext advances to the next page of values.  If there was an error making
+        // the request the page does not advance and the error is returned.
+        func (page * CapabilitiesListResultPage) NextWithContext(ctx context.Context) (err error) {
+        if tracing.IsEnabled() {
+        ctx = tracing.StartSpan(ctx, fqdn + "/CapabilitiesListResultPage.NextWithContext")
+        defer func() {
+        sc := -1
+        if page.Response().Response.Response != nil {
+        sc = page.Response().Response.Response.StatusCode
+        }
+        tracing.EndSpan(ctx, sc, err)
+        }()
+        }
+        for {
+            next, err := page.fn(ctx, page.clr)
+            if err != nil {
+            return err
+            }
+            page.clr = next
+            if !next.hasNextLink() || !next.IsEmpty() {
+                break
+            }
+        }
+        return nil
+        }
+
+        // Next advances to the next page of values.  If there was an error making
+        // the request the page does not advance and the error is returned.
+        // Deprecated: Use NextWithContext() instead.
+        func (page * CapabilitiesListResultPage) Next() error {
+        return page.NextWithContext(context.Background())
+        }
+        // NotDone returns true if the page enumeration should be started or is not yet complete.
+        func (page CapabilitiesListResultPage) NotDone() bool {
+        return !page.clr.IsEmpty()
+        }
+        // Response returns the raw server response from the last page request.
+        func (page CapabilitiesListResultPage) Response() CapabilitiesListResult {
+        return page.clr
+        }
+        // Values returns the slice of values for the current page or nil if there are no values.
+        func (page CapabilitiesListResultPage) Values() []CapabilityProperties {
+        if page.clr.IsEmpty() {
+        return nil
+        }
+        return *page.clr.Value
+        }
+        // Creates a new instance of the CapabilitiesListResultPage type.
+        func NewCapabilitiesListResultPage (getNextPage func(context.Context, CapabilitiesListResult) (CapabilitiesListResult, error)) CapabilitiesListResultPage {
+            return CapabilitiesListResultPage{fn: getNextPage}
+        }
+
+        // CapabilityProperties location capabilities.
+        type CapabilityProperties struct {
+        // Zone - READ-ONLY; zone name
+        Zone *string `json:"zone,omitempty"`
+        // SupportedFlexibleServerEditions - READ-ONLY
+        SupportedFlexibleServerEditions *[]ServerEditionCapability `json:"supportedFlexibleServerEditions,omitempty"`
         }
 
         // CloudError an error response from the Batch service.
@@ -53,11 +207,11 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
         autorest.Response `json:"-"`
         // ConfigurationProperties - The properties of a configuration.
         *ConfigurationProperties `json:"properties,omitempty"`
-        // ID - READ-ONLY; Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+        // ID - READ-ONLY; Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
         ID *string `json:"id,omitempty"`
         // Name - READ-ONLY; The name of the resource
         Name *string `json:"name,omitempty"`
-        // Type - READ-ONLY; The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+        // Type - READ-ONLY; The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
         Type *string `json:"type,omitempty"`
         }
 
@@ -322,29 +476,29 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
             return
         }
 
-        // CustomerMaintenanceWindow represents a server firewall rule.
-        type CustomerMaintenanceWindow struct {
+        // Database represents a Database.
+        type Database struct {
         autorest.Response `json:"-"`
-        // CustomerMaintenanceWindowProperties - The properties of a customer maintenance window.
-        *CustomerMaintenanceWindowProperties `json:"properties,omitempty"`
-        // ID - READ-ONLY; Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+        // DatabaseProperties - The properties of a database.
+        *DatabaseProperties `json:"properties,omitempty"`
+        // ID - READ-ONLY; Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
         ID *string `json:"id,omitempty"`
         // Name - READ-ONLY; The name of the resource
         Name *string `json:"name,omitempty"`
-        // Type - READ-ONLY; The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+        // Type - READ-ONLY; The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
         Type *string `json:"type,omitempty"`
         }
 
-        // MarshalJSON is the custom marshaler for CustomerMaintenanceWindow.
-        func (cmw CustomerMaintenanceWindow)MarshalJSON() ([]byte, error){
+        // MarshalJSON is the custom marshaler for Database.
+        func (d Database)MarshalJSON() ([]byte, error){
         objectMap := make(map[string]interface{})
-                if(cmw.CustomerMaintenanceWindowProperties != nil) {
-                objectMap["properties"] = cmw.CustomerMaintenanceWindowProperties
+                if(d.DatabaseProperties != nil) {
+                objectMap["properties"] = d.DatabaseProperties
                 }
                 return json.Marshal(objectMap)
         }
-        // UnmarshalJSON is the custom unmarshaler for CustomerMaintenanceWindow struct.
-        func (cmw *CustomerMaintenanceWindow) UnmarshalJSON(body []byte) error {
+        // UnmarshalJSON is the custom unmarshaler for Database struct.
+        func (d *Database) UnmarshalJSON(body []byte) error {
         var m map[string]*json.RawMessage
         err := json.Unmarshal(body, &m)
         if err != nil {
@@ -354,12 +508,12 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
         switch k {
                 case "properties":
     if v != nil {
-        var customerMaintenanceWindowProperties CustomerMaintenanceWindowProperties
-        err = json.Unmarshal(*v, &customerMaintenanceWindowProperties)
+        var databaseProperties DatabaseProperties
+        err = json.Unmarshal(*v, &databaseProperties)
         if err != nil {
     return err
     }
-        cmw.CustomerMaintenanceWindowProperties = &customerMaintenanceWindowProperties
+        d.DatabaseProperties = &databaseProperties
     }
                 case "id":
     if v != nil {
@@ -368,7 +522,7 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
         if err != nil {
     return err
     }
-        cmw.ID = &ID
+        d.ID = &ID
     }
                 case "name":
     if v != nil {
@@ -377,7 +531,7 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
         if err != nil {
     return err
     }
-        cmw.Name = &name
+        d.Name = &name
     }
                 case "type":
     if v != nil {
@@ -386,7 +540,7 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
         if err != nil {
     return err
     }
-        cmw.Type = &typeVar
+        d.Type = &typeVar
     }
             }
         }
@@ -394,73 +548,214 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
         return nil
         }
 
-        // CustomerMaintenanceWindowCreateOrUpdateFuture an abstraction for monitoring and retrieving the results of a
-        // long-running operation.
-        type CustomerMaintenanceWindowCreateOrUpdateFuture struct {
+        // DatabaseListResult a List of databases.
+        type DatabaseListResult struct {
+        autorest.Response `json:"-"`
+        // Value - The list of databases housed in a server
+        Value *[]Database `json:"value,omitempty"`
+        // NextLink - The link used to get the next page of operations.
+        NextLink *string `json:"nextLink,omitempty"`
+        }
+
+        // DatabaseListResultIterator provides access to a complete listing of Database values.
+        type DatabaseListResultIterator struct {
+            i int
+            page DatabaseListResultPage
+        }
+        // NextWithContext advances to the next value.  If there was an error making
+        // the request the iterator does not advance and the error is returned.
+        func (iter * DatabaseListResultIterator) NextWithContext(ctx context.Context) (err error) {
+        if tracing.IsEnabled() {
+        ctx = tracing.StartSpan(ctx, fqdn + "/DatabaseListResultIterator.NextWithContext")
+        defer func() {
+        sc := -1
+        if iter.Response().Response.Response != nil {
+        sc = iter.Response().Response.Response.StatusCode
+        }
+        tracing.EndSpan(ctx, sc, err)
+        }()
+        }
+        iter.i++
+        if iter.i < len(iter. page.Values()) {
+        return nil
+        }
+        err = iter.page.NextWithContext(ctx)
+        if err != nil {
+        iter. i--
+        return err
+        }
+        iter.i = 0
+        return nil
+        }
+        // Next advances to the next value.  If there was an error making
+        // the request the iterator does not advance and the error is returned.
+        // Deprecated: Use NextWithContext() instead.
+        func (iter * DatabaseListResultIterator) Next() error {
+        return iter.NextWithContext(context.Background())
+        }
+        // NotDone returns true if the enumeration should be started or is not yet complete.
+        func (iter DatabaseListResultIterator) NotDone() bool {
+        return iter.page.NotDone() && iter.i < len(iter. page.Values())
+        }
+        // Response returns the raw server response from the last page request.
+        func (iter DatabaseListResultIterator) Response() DatabaseListResult {
+        return iter.page.Response()
+        }
+        // Value returns the current value or a zero-initialized value if the
+        // iterator has advanced beyond the end of the collection.
+        func (iter DatabaseListResultIterator) Value() Database {
+        if !iter.page.NotDone() {
+        return Database{}
+        }
+        return iter.page.Values()[iter.i]
+        }
+        // Creates a new instance of the DatabaseListResultIterator type.
+        func NewDatabaseListResultIterator (page DatabaseListResultPage) DatabaseListResultIterator {
+            return DatabaseListResultIterator{page: page}
+        }
+
+
+            // IsEmpty returns true if the ListResult contains no values.
+            func (dlr DatabaseListResult) IsEmpty() bool {
+            return dlr.Value == nil || len(*dlr.Value) == 0
+            }
+
+            // hasNextLink returns true if the NextLink is not empty.
+            func (dlr DatabaseListResult) hasNextLink() bool {
+            return dlr.NextLink != nil && len(*dlr.NextLink) != 0
+            }
+                // databaseListResultPreparer prepares a request to retrieve the next set of results.
+                // It returns nil if no more results exist.
+                func (dlr DatabaseListResult) databaseListResultPreparer(ctx context.Context) (*http.Request, error) {
+                if !dlr.hasNextLink() {
+                return nil, nil
+                }
+                return autorest.Prepare((&http.Request{}).WithContext(ctx),
+                autorest.AsJSON(),
+                autorest.AsGet(),
+                autorest.WithBaseURL(to.String( dlr.NextLink)));
+                }
+
+        // DatabaseListResultPage contains a page of Database values.
+        type DatabaseListResultPage struct {
+            fn func(context.Context, DatabaseListResult) (DatabaseListResult, error)
+            dlr DatabaseListResult
+        }
+
+        // NextWithContext advances to the next page of values.  If there was an error making
+        // the request the page does not advance and the error is returned.
+        func (page * DatabaseListResultPage) NextWithContext(ctx context.Context) (err error) {
+        if tracing.IsEnabled() {
+        ctx = tracing.StartSpan(ctx, fqdn + "/DatabaseListResultPage.NextWithContext")
+        defer func() {
+        sc := -1
+        if page.Response().Response.Response != nil {
+        sc = page.Response().Response.Response.StatusCode
+        }
+        tracing.EndSpan(ctx, sc, err)
+        }()
+        }
+        for {
+            next, err := page.fn(ctx, page.dlr)
+            if err != nil {
+            return err
+            }
+            page.dlr = next
+            if !next.hasNextLink() || !next.IsEmpty() {
+                break
+            }
+        }
+        return nil
+        }
+
+        // Next advances to the next page of values.  If there was an error making
+        // the request the page does not advance and the error is returned.
+        // Deprecated: Use NextWithContext() instead.
+        func (page * DatabaseListResultPage) Next() error {
+        return page.NextWithContext(context.Background())
+        }
+        // NotDone returns true if the page enumeration should be started or is not yet complete.
+        func (page DatabaseListResultPage) NotDone() bool {
+        return !page.dlr.IsEmpty()
+        }
+        // Response returns the raw server response from the last page request.
+        func (page DatabaseListResultPage) Response() DatabaseListResult {
+        return page.dlr
+        }
+        // Values returns the slice of values for the current page or nil if there are no values.
+        func (page DatabaseListResultPage) Values() []Database {
+        if page.dlr.IsEmpty() {
+        return nil
+        }
+        return *page.dlr.Value
+        }
+        // Creates a new instance of the DatabaseListResultPage type.
+        func NewDatabaseListResultPage (getNextPage func(context.Context, DatabaseListResult) (DatabaseListResult, error)) DatabaseListResultPage {
+            return DatabaseListResultPage{fn: getNextPage}
+        }
+
+        // DatabaseProperties the properties of a database.
+        type DatabaseProperties struct {
+        // Charset - The charset of the database.
+        Charset *string `json:"charset,omitempty"`
+        // Collation - The collation of the database.
+        Collation *string `json:"collation,omitempty"`
+        }
+
+        // DatabasesCreateFuture an abstraction for monitoring and retrieving the results of a long-running operation.
+        type DatabasesCreateFuture struct {
             azure.Future
         }
         // Result returns the result of the asynchronous operation.
         // If the operation has not completed it will return an error.
-        func (future *CustomerMaintenanceWindowCreateOrUpdateFuture) Result(client CustomerMaintenanceWindowClient) (cmw CustomerMaintenanceWindow, err error) {
+        func (future *DatabasesCreateFuture) Result(client DatabasesClient) (d Database, err error) {
         var done bool
         done, err = future.DoneWithContext(context.Background(), client)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.CustomerMaintenanceWindowCreateOrUpdateFuture", "Result", future.Response(), "Polling failure")
+        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.DatabasesCreateFuture", "Result", future.Response(), "Polling failure")
         return
         }
         if !done {
-        err = azure.NewAsyncOpIncompleteError("postgresqlflexibleservers.CustomerMaintenanceWindowCreateOrUpdateFuture")
+        err = azure.NewAsyncOpIncompleteError("postgresqlflexibleservers.DatabasesCreateFuture")
         return
         }
             sender := autorest.DecorateSender(client, autorest.DoRetryForStatusCodes(client.RetryAttempts, client.RetryDuration, autorest.StatusCodesForRetry...))
-            if cmw.Response.Response, err = future.GetResult(sender); err == nil && cmw.Response.Response.StatusCode != http.StatusNoContent {
-            cmw, err = client.CreateOrUpdateResponder(cmw.Response.Response)
+            if d.Response.Response, err = future.GetResult(sender); err == nil && d.Response.Response.StatusCode != http.StatusNoContent {
+            d, err = client.CreateResponder(d.Response.Response)
             if err != nil {
-            err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.CustomerMaintenanceWindowCreateOrUpdateFuture", "Result", cmw.Response.Response, "Failure responding to request")
+            err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.DatabasesCreateFuture", "Result", d.Response.Response, "Failure responding to request")
             }
             }
             return
         }
 
-        // CustomerMaintenanceWindowDeleteFuture an abstraction for monitoring and retrieving the results of a
-        // long-running operation.
-        type CustomerMaintenanceWindowDeleteFuture struct {
+        // DatabasesDeleteFuture an abstraction for monitoring and retrieving the results of a long-running operation.
+        type DatabasesDeleteFuture struct {
             azure.Future
         }
         // Result returns the result of the asynchronous operation.
         // If the operation has not completed it will return an error.
-        func (future *CustomerMaintenanceWindowDeleteFuture) Result(client CustomerMaintenanceWindowClient) (ar autorest.Response, err error) {
+        func (future *DatabasesDeleteFuture) Result(client DatabasesClient) (ar autorest.Response, err error) {
         var done bool
         done, err = future.DoneWithContext(context.Background(), client)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.CustomerMaintenanceWindowDeleteFuture", "Result", future.Response(), "Polling failure")
+        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.DatabasesDeleteFuture", "Result", future.Response(), "Polling failure")
         return
         }
         if !done {
-        err = azure.NewAsyncOpIncompleteError("postgresqlflexibleservers.CustomerMaintenanceWindowDeleteFuture")
+        err = azure.NewAsyncOpIncompleteError("postgresqlflexibleservers.DatabasesDeleteFuture")
         return
         }
             ar.Response = future.Response()
         return
         }
 
-        // CustomerMaintenanceWindowListResult a list of firewall rules.
-        type CustomerMaintenanceWindowListResult struct {
-        autorest.Response `json:"-"`
-        // Value - The list of CustomerMaintenanceWindows in a PostgreSQL server.
-        Value *[]CustomerMaintenanceWindow `json:"value,omitempty"`
-        }
-
-        // CustomerMaintenanceWindowProperties the properties of a server firewall rule.
-        type CustomerMaintenanceWindowProperties struct {
-        // DayOfWeek - The day of week of the customer maintenance window to start
-        DayOfWeek *int32 `json:"dayOfWeek,omitempty"`
-        // DurationInMinutes - The duration of the customer maintenance window to run.
-        DurationInMinutes *int32 `json:"durationInMinutes,omitempty"`
-        // StartHour - The starting hour of the customer maintenance window.
-        StartHour *int32 `json:"startHour,omitempty"`
-        // StartMinute - The starting minutes of the customer maintenance window.
-        StartMinute *int32 `json:"startMinute,omitempty"`
+        // DelegatedSubnetUsage delegated subnet usage data.
+        type DelegatedSubnetUsage struct {
+        // SubnetName - READ-ONLY; name of the subnet
+        SubnetName *string `json:"subnetName,omitempty"`
+        // Usage - READ-ONLY; Number of used delegated subnets
+        Usage *int64 `json:"usage,omitempty"`
         }
 
         // ErrorAdditionalInfo the resource management error additional info.
@@ -471,7 +766,8 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
         Info interface{} `json:"info,omitempty"`
         }
 
-        // ErrorResponse the resource management error response.
+        // ErrorResponse common error response for all Azure Resource Manager APIs to return error details for failed
+        // operations. (This also follows the OData error response format.)
         type ErrorResponse struct {
         // Code - READ-ONLY; The error code.
         Code *string `json:"code,omitempty"`
@@ -490,11 +786,11 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
         autorest.Response `json:"-"`
         // FirewallRuleProperties - The properties of a firewall rule.
         *FirewallRuleProperties `json:"properties,omitempty"`
-        // ID - READ-ONLY; Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+        // ID - READ-ONLY; Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
         ID *string `json:"id,omitempty"`
         // Name - READ-ONLY; The name of the resource
         Name *string `json:"name,omitempty"`
-        // Type - READ-ONLY; The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+        // Type - READ-ONLY; The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
         Type *string `json:"type,omitempty"`
         }
 
@@ -780,6 +1076,18 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
                 return json.Marshal(objectMap)
         }
 
+        // MaintenanceWindow maintenance window of a server.
+        type MaintenanceWindow struct {
+        // CustomWindow - indicates whether custom window is enabled or disabled
+        CustomWindow *string `json:"customWindow,omitempty"`
+        // StartHour - start hour for maintenance window
+        StartHour *int32 `json:"startHour,omitempty"`
+        // StartMinute - start minute for maintenance window
+        StartMinute *int32 `json:"startMinute,omitempty"`
+        // DayOfWeek - day of week for maintenance window
+        DayOfWeek *int32 `json:"dayOfWeek,omitempty"`
+        }
+
         // NameAvailability represents a resource name availability.
         type NameAvailability struct {
         autorest.Response `json:"-"`
@@ -807,6 +1115,8 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
         Name *string `json:"name,omitempty"`
         // Display - READ-ONLY; The localized display information for this particular operation or action.
         Display *OperationDisplay `json:"display,omitempty"`
+        // IsDataAction - Indicates whether the operation is a data action
+        IsDataAction *bool `json:"isDataAction,omitempty"`
         // Origin - READ-ONLY; The intended executor of the operation. Possible values include: 'NotSpecified', 'User', 'System'
         Origin OperationOrigin `json:"origin,omitempty"`
         // Properties - READ-ONLY; Additional descriptions for the operation.
@@ -816,6 +1126,9 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
         // MarshalJSON is the custom marshaler for Operation.
         func (o Operation)MarshalJSON() ([]byte, error){
         objectMap := make(map[string]interface{})
+                if(o.IsDataAction != nil) {
+                objectMap["isDataAction"] = o.IsDataAction
+                }
                 return json.Marshal(objectMap)
         }
 
@@ -834,8 +1147,11 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
         // OperationListResult a list of resource provider operations.
         type OperationListResult struct {
         autorest.Response `json:"-"`
-        // Value - The list of resource provider operations.
+        // Value - Collection of available operation details
         Value *[]Operation `json:"value,omitempty"`
+        // NextLink - URL client should use to fetch the next page (per server side paging).
+        // It's null for now, added for future use.
+        NextLink *string `json:"nextLink,omitempty"`
         }
 
         // Plan plan for the resource.
@@ -852,35 +1168,35 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
         Version *string `json:"version,omitempty"`
         }
 
-        // ProxyResource the resource model definition for a ARM proxy resource. It will have everything other than
-        // required location and tags
+        // ProxyResource the resource model definition for a Azure Resource Manager proxy resource. It will not have
+        // tags and a location
         type ProxyResource struct {
-        // ID - READ-ONLY; Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+        // ID - READ-ONLY; Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
         ID *string `json:"id,omitempty"`
         // Name - READ-ONLY; The name of the resource
         Name *string `json:"name,omitempty"`
-        // Type - READ-ONLY; The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+        // Type - READ-ONLY; The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
         Type *string `json:"type,omitempty"`
         }
 
-        // Resource ...
+        // Resource common fields that are returned in the response for all Azure Resource Manager resources
         type Resource struct {
-        // ID - READ-ONLY; Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+        // ID - READ-ONLY; Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
         ID *string `json:"id,omitempty"`
         // Name - READ-ONLY; The name of the resource
         Name *string `json:"name,omitempty"`
-        // Type - READ-ONLY; The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+        // Type - READ-ONLY; The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
         Type *string `json:"type,omitempty"`
         }
 
         // ResourceModelWithAllowedPropertySet the resource model definition containing the full set of allowed
         // properties for a resource. Except properties bag, there cannot be a top level property outside of this set.
         type ResourceModelWithAllowedPropertySet struct {
-        // ID - READ-ONLY; Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+        // ID - READ-ONLY; Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
         ID *string `json:"id,omitempty"`
         // Name - READ-ONLY; The name of the resource
         Name *string `json:"name,omitempty"`
-        // Type - READ-ONLY; The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts..
+        // Type - READ-ONLY; The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
         Type *string `json:"type,omitempty"`
         // Location - The geo-location where the resource lives
         Location *string `json:"location,omitempty"`
@@ -978,11 +1294,11 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
         Tags map[string]*string `json:"tags"`
         // Location - The geo-location where the resource lives
         Location *string `json:"location,omitempty"`
-        // ID - READ-ONLY; Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+        // ID - READ-ONLY; Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
         ID *string `json:"id,omitempty"`
         // Name - READ-ONLY; The name of the resource
         Name *string `json:"name,omitempty"`
-        // Type - READ-ONLY; The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+        // Type - READ-ONLY; The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
         Type *string `json:"type,omitempty"`
         }
 
@@ -1093,14 +1409,24 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
         return nil
         }
 
+        // ServerEditionCapability server edition capabilities.
+        type ServerEditionCapability struct {
+        // Name - READ-ONLY; Server edition name
+        Name *string `json:"name,omitempty"`
+        // SupportedStorageEditions - READ-ONLY
+        SupportedStorageEditions *[]StorageEditionCapability `json:"supportedStorageEditions,omitempty"`
+        // SupportedServerVersions - READ-ONLY
+        SupportedServerVersions *[]ServerVersionCapability `json:"supportedServerVersions,omitempty"`
+        }
+
         // ServerForUpdate represents a server to be updated.
         type ServerForUpdate struct {
         // Location - The location the resource resides in.
         Location *string `json:"location,omitempty"`
         // Sku - The SKU (pricing tier) of the server.
         Sku *Sku `json:"sku,omitempty"`
-        // Properties - Properties of the server.
-        Properties *ServerPropertiesForUpdate `json:"properties,omitempty"`
+        // ServerPropertiesForUpdate - Properties of the server.
+        *ServerPropertiesForUpdate `json:"properties,omitempty"`
         // Tags - Application-specific metadata in the form of key-value pairs.
         Tags map[string]*string `json:"tags"`
         }
@@ -1114,13 +1440,63 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
                 if(sfu.Sku != nil) {
                 objectMap["sku"] = sfu.Sku
                 }
-                if(sfu.Properties != nil) {
-                objectMap["properties"] = sfu.Properties
+                if(sfu.ServerPropertiesForUpdate != nil) {
+                objectMap["properties"] = sfu.ServerPropertiesForUpdate
                 }
                 if(sfu.Tags != nil) {
                 objectMap["tags"] = sfu.Tags
                 }
                 return json.Marshal(objectMap)
+        }
+        // UnmarshalJSON is the custom unmarshaler for ServerForUpdate struct.
+        func (sfu *ServerForUpdate) UnmarshalJSON(body []byte) error {
+        var m map[string]*json.RawMessage
+        err := json.Unmarshal(body, &m)
+        if err != nil {
+        return err
+        }
+        for k, v := range  m {
+        switch k {
+                case "location":
+    if v != nil {
+        var location string
+        err = json.Unmarshal(*v, &location)
+        if err != nil {
+    return err
+    }
+        sfu.Location = &location
+    }
+                case "sku":
+    if v != nil {
+        var sku Sku
+        err = json.Unmarshal(*v, &sku)
+        if err != nil {
+    return err
+    }
+        sfu.Sku = &sku
+    }
+                case "properties":
+    if v != nil {
+        var serverPropertiesForUpdate ServerPropertiesForUpdate
+        err = json.Unmarshal(*v, &serverPropertiesForUpdate)
+        if err != nil {
+    return err
+    }
+        sfu.ServerPropertiesForUpdate = &serverPropertiesForUpdate
+    }
+                case "tags":
+    if v != nil {
+        var tags map[string]*string
+        err = json.Unmarshal(*v, &tags)
+        if err != nil {
+    return err
+    }
+        sfu.Tags = tags
+    }
+            }
+        }
+
+        return nil
         }
 
         // ServerListResult a list of servers.
@@ -1275,7 +1651,7 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
         AdministratorLogin *string `json:"administratorLogin,omitempty"`
         // AdministratorLoginPassword - The administrator login password (required for server creation).
         AdministratorLoginPassword *string `json:"administratorLoginPassword,omitempty"`
-        // Version - PostgreSQL Server version. Possible values include: 'OneTwo'
+        // Version - PostgreSQL Server version. Possible values include: 'OneTwo', 'OneOne'
         Version ServerVersion `json:"version,omitempty"`
         // State - READ-ONLY; A state of a server that is visible to user. Possible values include: 'ServerStateReady', 'ServerStateDropping', 'ServerStateDisabled', 'ServerStateStarting', 'ServerStateStopping', 'ServerStateStopped', 'ServerStateUpdating'
         State ServerState `json:"state,omitempty"`
@@ -1287,17 +1663,23 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
         DisplayName *string `json:"displayName,omitempty"`
         // StorageProfile - Storage profile of a server.
         StorageProfile *StorageProfile `json:"storageProfile,omitempty"`
-        // PublicNetworkAccess - public network access is enabled or not. Possible values include: 'Enabled', 'Disabled'
+        // PublicNetworkAccess - READ-ONLY; public network access is enabled or not. Possible values include: 'ServerPublicNetworkAccessStateEnabled', 'ServerPublicNetworkAccessStateDisabled'
         PublicNetworkAccess ServerPublicNetworkAccessState `json:"publicNetworkAccess,omitempty"`
-        // StandbyCount - stand by count value can be either 0 or 1
-        StandbyCount *int32 `json:"standbyCount,omitempty"`
+        // MaintenanceWindow - Maintenance window of a server.
+        MaintenanceWindow *MaintenanceWindow `json:"maintenanceWindow,omitempty"`
+        // HaEnabled - stand by count value can be either enabled or disabled. Possible values include: 'Enabled', 'Disabled'
+        HaEnabled HAEnabledEnum `json:"haEnabled,omitempty"`
         // SourceServerName - The source PostgreSQL server name to restore from.
         SourceServerName *string `json:"sourceServerName,omitempty"`
         // PointInTimeUTC - Restore point creation time (ISO8601 format), specifying the time to restore from.
         PointInTimeUTC *date.Time `json:"pointInTimeUTC,omitempty"`
         // AvailabilityZone - availability Zone information of the server.
         AvailabilityZone *string `json:"availabilityZone,omitempty"`
-        VnetInjArgs *ServerPropertiesVnetInjArgs `json:"vnetInjArgs,omitempty"`
+        // StandbyAvailabilityZone - READ-ONLY; availability Zone information of the server.
+        StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
+        // ByokEnforcement - READ-ONLY; Status showing whether the data encryption is enabled with customer-managed keys.
+        ByokEnforcement *string `json:"byokEnforcement,omitempty"`
+        DelegatedSubnetArguments *ServerPropertiesDelegatedSubnetArguments `json:"delegatedSubnetArguments,omitempty"`
         // CreateMode - The mode to create a new PostgreSQL server. Possible values include: 'Default', 'PointInTimeRestore'
         CreateMode CreateMode `json:"createMode,omitempty"`
         // Tags - Application-specific metadata in the form of key-value pairs.
@@ -1322,11 +1704,11 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
                 if(sp.StorageProfile != nil) {
                 objectMap["storageProfile"] = sp.StorageProfile
                 }
-                if(sp.PublicNetworkAccess != "") {
-                objectMap["publicNetworkAccess"] = sp.PublicNetworkAccess
+                if(sp.MaintenanceWindow != nil) {
+                objectMap["maintenanceWindow"] = sp.MaintenanceWindow
                 }
-                if(sp.StandbyCount != nil) {
-                objectMap["standbyCount"] = sp.StandbyCount
+                if(sp.HaEnabled != "") {
+                objectMap["haEnabled"] = sp.HaEnabled
                 }
                 if(sp.SourceServerName != nil) {
                 objectMap["sourceServerName"] = sp.SourceServerName
@@ -1337,8 +1719,8 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
                 if(sp.AvailabilityZone != nil) {
                 objectMap["availabilityZone"] = sp.AvailabilityZone
                 }
-                if(sp.VnetInjArgs != nil) {
-                objectMap["vnetInjArgs"] = sp.VnetInjArgs
+                if(sp.DelegatedSubnetArguments != nil) {
+                objectMap["delegatedSubnetArguments"] = sp.DelegatedSubnetArguments
                 }
                 if(sp.CreateMode != "") {
                 objectMap["createMode"] = sp.CreateMode
@@ -1349,28 +1731,22 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
                 return json.Marshal(objectMap)
         }
 
+        // ServerPropertiesDelegatedSubnetArguments ...
+        type ServerPropertiesDelegatedSubnetArguments struct {
+        // SubnetArmResourceID - delegated subnet arm resource id.
+        SubnetArmResourceID *string `json:"subnetArmResourceId,omitempty"`
+        }
+
         // ServerPropertiesForUpdate ...
         type ServerPropertiesForUpdate struct {
         // AdministratorLoginPassword - The password of the administrator login.
         AdministratorLoginPassword *string `json:"administratorLoginPassword,omitempty"`
-        // VCores - Max compute of a server is 64vCores.
-        VCores *int32 `json:"vCores,omitempty"`
         // StorageProfile - Storage profile of a server.
         StorageProfile *StorageProfile `json:"storageProfile,omitempty"`
-        // StandbyCount - stand by count value can be either 0 or 1
-        StandbyCount *int32 `json:"standbyCount,omitempty"`
-        }
-
-        // ServerPropertiesVnetInjArgs ...
-        type ServerPropertiesVnetInjArgs struct {
-        // DelegatedVnetID - delegated vNet ID
-        DelegatedVnetID *string `json:"delegatedVnetID,omitempty"`
-        // DelegatedSubnetName - delegated subnet name
-        DelegatedSubnetName *string `json:"delegatedSubnetName,omitempty"`
-        // DelegatedVnetName - delegated vNet name
-        DelegatedVnetName *string `json:"delegatedVnetName,omitempty"`
-        // DelegatedVnetResourceGroup - delegated vNet resource group name
-        DelegatedVnetResourceGroup *string `json:"delegatedVnetResourceGroup,omitempty"`
+        // HaEnabled - stand by count value can be either enabled or disabled. Possible values include: 'Enabled', 'Disabled'
+        HaEnabled HAEnabledEnum `json:"haEnabled,omitempty"`
+        // MaintenanceWindow - Maintenance window of a server.
+        MaintenanceWindow *MaintenanceWindow `json:"maintenanceWindow,omitempty"`
         }
 
         // ServersCreateFuture an abstraction for monitoring and retrieving the results of a long-running operation.
@@ -1511,12 +1887,38 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
             return
         }
 
+        // ServerVersionCapability server version capabilities.
+        type ServerVersionCapability struct {
+        // Name - READ-ONLY; server version
+        Name *string `json:"name,omitempty"`
+        // SupportedVcores - READ-ONLY
+        SupportedVcores *[]VcoreCapability `json:"supportedVcores,omitempty"`
+        }
+
         // Sku sku information related properties of a server.
         type Sku struct {
         // Name - The name of the sku, typically, tier + family + cores, e.g. Standard_D4s_v3.
         Name *string `json:"name,omitempty"`
         // Tier - The tier of the particular SKU, e.g. Burstable. Possible values include: 'Burstable', 'GeneralPurpose', 'MemoryOptimized'
         Tier SkuTier `json:"tier,omitempty"`
+        }
+
+        // StorageEditionCapability storage edition capability
+        type StorageEditionCapability struct {
+        // Name - READ-ONLY; storage edition name
+        Name *string `json:"name,omitempty"`
+        // SupportedStorageMB - READ-ONLY
+        SupportedStorageMB *[]StorageMBCapability `json:"supportedStorageMB,omitempty"`
+        }
+
+        // StorageMBCapability storage size in MB capability
+        type StorageMBCapability struct {
+        // Name - READ-ONLY; storage MB name
+        Name *string `json:"name,omitempty"`
+        // SupportedIops - READ-ONLY; supported IOPS
+        SupportedIops *int64 `json:"supportedIops,omitempty"`
+        // StorageSizeMB - READ-ONLY; storage size in MB
+        StorageSizeMB *int64 `json:"storageSizeMB,omitempty"`
         }
 
         // StorageProfile storage Profile properties of a server
@@ -1527,17 +1929,18 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
         StorageMB *int32 `json:"storageMB,omitempty"`
         }
 
-        // TrackedResource the resource model definition for a ARM tracked top level resource
+        // TrackedResource the resource model definition for an Azure Resource Manager tracked top level resource which
+        // has 'tags' and a 'location'
         type TrackedResource struct {
         // Tags - Resource tags.
         Tags map[string]*string `json:"tags"`
         // Location - The geo-location where the resource lives
         Location *string `json:"location,omitempty"`
-        // ID - READ-ONLY; Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+        // ID - READ-ONLY; Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
         ID *string `json:"id,omitempty"`
         // Name - READ-ONLY; The name of the resource
         Name *string `json:"name,omitempty"`
-        // Type - READ-ONLY; The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts.
+        // Type - READ-ONLY; The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
         Type *string `json:"type,omitempty"`
         }
 
@@ -1551,5 +1954,30 @@ const fqdn = "github.com/Azure/azure-sdk-for-go/services/preview/postgresql/mgmt
                 objectMap["location"] = tr.Location
                 }
                 return json.Marshal(objectMap)
+        }
+
+        // VcoreCapability vcores capability
+        type VcoreCapability struct {
+        // Name - READ-ONLY; vCore name
+        Name *string `json:"name,omitempty"`
+        // VCores - READ-ONLY; supported vCores
+        VCores *int64 `json:"vCores,omitempty"`
+        // SupportedIops - READ-ONLY; supported IOPS
+        SupportedIops *int64 `json:"supportedIops,omitempty"`
+        // SupportedMemoryPerVcoreMB - READ-ONLY; supported memory per vCore in MB
+        SupportedMemoryPerVcoreMB *int64 `json:"supportedMemoryPerVcoreMB,omitempty"`
+        }
+
+        // VirtualNetworkSubnetUsageParameter virtual network subnet usage parameter
+        type VirtualNetworkSubnetUsageParameter struct {
+        // VirtualNetworkArmResourceID - Virtual network resource id.
+        VirtualNetworkArmResourceID *string `json:"virtualNetworkArmResourceId,omitempty"`
+        }
+
+        // VirtualNetworkSubnetUsageResult virtual network subnet usage data.
+        type VirtualNetworkSubnetUsageResult struct {
+        autorest.Response `json:"-"`
+        // DelegatedSubnetsUsage - READ-ONLY
+        DelegatedSubnetsUsage *[]DelegatedSubnetUsage `json:"delegatedSubnetsUsage,omitempty"`
         }
 

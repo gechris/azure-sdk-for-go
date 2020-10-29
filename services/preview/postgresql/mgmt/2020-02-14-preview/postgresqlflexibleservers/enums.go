@@ -49,6 +49,20 @@ package postgresqlflexibleservers
         return []CreateMode{Default,PointInTimeRestore}
     }
 
+        // HAEnabledEnum enumerates the values for ha enabled enum.
+    type HAEnabledEnum string
+
+    const (
+                // Disabled ...
+        Disabled HAEnabledEnum = "Disabled"
+                // Enabled ...
+        Enabled HAEnabledEnum = "Enabled"
+            )
+    // PossibleHAEnabledEnumValues returns an array of possible values for the HAEnabledEnum const type.
+    func PossibleHAEnabledEnumValues() []HAEnabledEnum {
+        return []HAEnabledEnum{Disabled,Enabled}
+    }
+
         // OperationOrigin enumerates the values for operation origin.
     type OperationOrigin string
 
@@ -103,14 +117,14 @@ package postgresqlflexibleservers
     type ServerPublicNetworkAccessState string
 
     const (
-                // Disabled ...
-        Disabled ServerPublicNetworkAccessState = "Disabled"
-                // Enabled ...
-        Enabled ServerPublicNetworkAccessState = "Enabled"
+                // ServerPublicNetworkAccessStateDisabled ...
+        ServerPublicNetworkAccessStateDisabled ServerPublicNetworkAccessState = "Disabled"
+                // ServerPublicNetworkAccessStateEnabled ...
+        ServerPublicNetworkAccessStateEnabled ServerPublicNetworkAccessState = "Enabled"
             )
     // PossibleServerPublicNetworkAccessStateValues returns an array of possible values for the ServerPublicNetworkAccessState const type.
     func PossibleServerPublicNetworkAccessStateValues() []ServerPublicNetworkAccessState {
-        return []ServerPublicNetworkAccessState{Disabled,Enabled}
+        return []ServerPublicNetworkAccessState{ServerPublicNetworkAccessStateDisabled,ServerPublicNetworkAccessStateEnabled}
     }
 
         // ServerState enumerates the values for server state.
@@ -141,12 +155,14 @@ package postgresqlflexibleservers
     type ServerVersion string
 
     const (
+                // OneOne ...
+        OneOne ServerVersion = "11"
                 // OneTwo ...
         OneTwo ServerVersion = "12"
             )
     // PossibleServerVersionValues returns an array of possible values for the ServerVersion const type.
     func PossibleServerVersionValues() []ServerVersion {
-        return []ServerVersion{OneTwo}
+        return []ServerVersion{OneOne,OneTwo}
     }
 
         // SkuTier enumerates the values for sku tier.

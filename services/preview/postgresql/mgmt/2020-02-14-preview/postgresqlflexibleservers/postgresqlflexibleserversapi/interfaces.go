@@ -48,6 +48,16 @@ import (
         }
 
         var _ FirewallRulesClientAPI = (*postgresqlflexibleservers.FirewallRulesClient)(nil)
+        // DatabasesClientAPI contains the set of methods on the DatabasesClient type.
+        type DatabasesClientAPI interface {
+            Create(ctx context.Context, resourceGroupName string, serverName string, databaseName string, parameters postgresqlflexibleservers.Database) (result postgresqlflexibleservers.DatabasesCreateFuture, err error)
+            Delete(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (result postgresqlflexibleservers.DatabasesDeleteFuture, err error)
+            Get(ctx context.Context, resourceGroupName string, serverName string, databaseName string) (result postgresqlflexibleservers.Database, err error)
+            ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result postgresqlflexibleservers.DatabaseListResultPage, err error)
+                ListByServerComplete(ctx context.Context, resourceGroupName string, serverName string) (result postgresqlflexibleservers.DatabaseListResultIterator, err error)
+        }
+
+        var _ DatabasesClientAPI = (*postgresqlflexibleservers.DatabasesClient)(nil)
         // ConfigurationsClientAPI contains the set of methods on the ConfigurationsClient type.
         type ConfigurationsClientAPI interface {
             Get(ctx context.Context, resourceGroupName string, serverName string, configurationName string) (result postgresqlflexibleservers.Configuration, err error)
@@ -57,21 +67,25 @@ import (
         }
 
         var _ ConfigurationsClientAPI = (*postgresqlflexibleservers.ConfigurationsClient)(nil)
-        // CustomerMaintenanceWindowClientAPI contains the set of methods on the CustomerMaintenanceWindowClient type.
-        type CustomerMaintenanceWindowClientAPI interface {
-            CreateOrUpdate(ctx context.Context, resourceGroupName string, serverName string, maintenanceWindowName string, parameters postgresqlflexibleservers.CustomerMaintenanceWindow) (result postgresqlflexibleservers.CustomerMaintenanceWindowCreateOrUpdateFuture, err error)
-            Delete(ctx context.Context, resourceGroupName string, serverName string, maintenanceWindowName string) (result postgresqlflexibleservers.CustomerMaintenanceWindowDeleteFuture, err error)
-            Get(ctx context.Context, resourceGroupName string, serverName string, maintenanceWindowName string) (result postgresqlflexibleservers.CustomerMaintenanceWindow, err error)
-            ListByServer(ctx context.Context, resourceGroupName string, serverName string) (result postgresqlflexibleservers.CustomerMaintenanceWindowListResult, err error)
-        }
-
-        var _ CustomerMaintenanceWindowClientAPI = (*postgresqlflexibleservers.CustomerMaintenanceWindowClient)(nil)
         // CheckNameAvailabilityClientAPI contains the set of methods on the CheckNameAvailabilityClient type.
         type CheckNameAvailabilityClientAPI interface {
             Execute(ctx context.Context, nameAvailabilityRequest postgresqlflexibleservers.NameAvailabilityRequest) (result postgresqlflexibleservers.NameAvailability, err error)
         }
 
         var _ CheckNameAvailabilityClientAPI = (*postgresqlflexibleservers.CheckNameAvailabilityClient)(nil)
+        // LocationBasedCapabilitiesClientAPI contains the set of methods on the LocationBasedCapabilitiesClient type.
+        type LocationBasedCapabilitiesClientAPI interface {
+            Execute(ctx context.Context, locationName string) (result postgresqlflexibleservers.CapabilitiesListResultPage, err error)
+                ExecuteComplete(ctx context.Context, locationName string) (result postgresqlflexibleservers.CapabilitiesListResultIterator, err error)
+        }
+
+        var _ LocationBasedCapabilitiesClientAPI = (*postgresqlflexibleservers.LocationBasedCapabilitiesClient)(nil)
+        // VirtualNetworkSubnetUsageClientAPI contains the set of methods on the VirtualNetworkSubnetUsageClient type.
+        type VirtualNetworkSubnetUsageClientAPI interface {
+            Execute(ctx context.Context, locationName string, parameters postgresqlflexibleservers.VirtualNetworkSubnetUsageParameter) (result postgresqlflexibleservers.VirtualNetworkSubnetUsageResult, err error)
+        }
+
+        var _ VirtualNetworkSubnetUsageClientAPI = (*postgresqlflexibleservers.VirtualNetworkSubnetUsageClient)(nil)
         // OperationsClientAPI contains the set of methods on the OperationsClient type.
         type OperationsClientAPI interface {
             List(ctx context.Context) (result postgresqlflexibleservers.OperationListResult, err error)

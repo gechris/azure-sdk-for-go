@@ -65,7 +65,11 @@ func (client ServersClient) Create(ctx context.Context, resourceGroupName string
         { TargetValue: resourceGroupName,
          Constraints: []validation.Constraint{	{Target: "resourceGroupName", Name: validation.MaxLength, Rule: 90, Chain: nil },
         	{Target: "resourceGroupName", Name: validation.MinLength, Rule: 1, Chain: nil },
-        	{Target: "resourceGroupName", Name: validation.Pattern, Rule: `^[-\w\._\(\)]+$`, Chain: nil }}}}); err != nil {
+        	{Target: "resourceGroupName", Name: validation.Pattern, Rule: `^[-\w\._\(\)]+$`, Chain: nil }}},
+        { TargetValue: parameters,
+         Constraints: []validation.Constraint{	{Target: "parameters.Sku", Name: validation.Null, Rule: false ,
+        Chain: []validation.Constraint{	{Target: "parameters.Sku.Name", Name: validation.Null, Rule: true, Chain: nil },
+        }}}}}); err != nil {
         return result, validation.NewError("postgresqlflexibleservers.ServersClient", "Create", err.Error())
         }
 
@@ -92,7 +96,7 @@ func (client ServersClient) Create(ctx context.Context, resourceGroupName string
         "subscriptionId": autorest.Encode("path",client.SubscriptionID),
         }
 
-            const APIVersion = "2020-02-14-privatepreview"
+            const APIVersion = "2020-02-14-preview"
     queryParameters := map[string]interface{} {
     "api-version": APIVersion,
     }
@@ -179,7 +183,7 @@ func (client ServersClient) Delete(ctx context.Context, resourceGroupName string
         "subscriptionId": autorest.Encode("path",client.SubscriptionID),
         }
 
-            const APIVersion = "2020-02-14-privatepreview"
+            const APIVersion = "2020-02-14-preview"
     queryParameters := map[string]interface{} {
     "api-version": APIVersion,
     }
@@ -269,7 +273,7 @@ func (client ServersClient) Get(ctx context.Context, resourceGroupName string, s
         "subscriptionId": autorest.Encode("path",client.SubscriptionID),
         }
 
-            const APIVersion = "2020-02-14-privatepreview"
+            const APIVersion = "2020-02-14-preview"
     queryParameters := map[string]interface{} {
     "api-version": APIVersion,
     }
@@ -349,7 +353,7 @@ func (client ServersClient) List(ctx context.Context) (result ServerListResultPa
         "subscriptionId": autorest.Encode("path",client.SubscriptionID),
         }
 
-            const APIVersion = "2020-02-14-privatepreview"
+            const APIVersion = "2020-02-14-preview"
     queryParameters := map[string]interface{} {
     "api-version": APIVersion,
     }
@@ -473,7 +477,7 @@ func (client ServersClient) ListByResourceGroup(ctx context.Context, resourceGro
         "subscriptionId": autorest.Encode("path",client.SubscriptionID),
         }
 
-            const APIVersion = "2020-02-14-privatepreview"
+            const APIVersion = "2020-02-14-preview"
     queryParameters := map[string]interface{} {
     "api-version": APIVersion,
     }
@@ -589,7 +593,7 @@ func (client ServersClient) Restart(ctx context.Context, resourceGroupName strin
         "subscriptionId": autorest.Encode("path",client.SubscriptionID),
         }
 
-            const APIVersion = "2020-02-14-privatepreview"
+            const APIVersion = "2020-02-14-preview"
     queryParameters := map[string]interface{} {
     "api-version": APIVersion,
     }
@@ -673,7 +677,7 @@ func (client ServersClient) Start(ctx context.Context, resourceGroupName string,
         "subscriptionId": autorest.Encode("path",client.SubscriptionID),
         }
 
-            const APIVersion = "2020-02-14-privatepreview"
+            const APIVersion = "2020-02-14-preview"
     queryParameters := map[string]interface{} {
     "api-version": APIVersion,
     }
@@ -757,7 +761,7 @@ func (client ServersClient) Stop(ctx context.Context, resourceGroupName string, 
         "subscriptionId": autorest.Encode("path",client.SubscriptionID),
         }
 
-            const APIVersion = "2020-02-14-privatepreview"
+            const APIVersion = "2020-02-14-preview"
     queryParameters := map[string]interface{} {
     "api-version": APIVersion,
     }
@@ -843,7 +847,7 @@ func (client ServersClient) Update(ctx context.Context, resourceGroupName string
         "subscriptionId": autorest.Encode("path",client.SubscriptionID),
         }
 
-            const APIVersion = "2020-02-14-privatepreview"
+            const APIVersion = "2020-02-14-preview"
     queryParameters := map[string]interface{} {
     "api-version": APIVersion,
     }

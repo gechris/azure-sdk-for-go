@@ -26,30 +26,31 @@ import (
     "github.com/Azure/go-autorest/autorest/validation"
 )
 
-// CheckNameAvailabilityClient is the the Microsoft Azure management API provides create, read, update, and delete
+// VirtualNetworkSubnetUsageClient is the the Microsoft Azure management API provides create, read, update, and delete
 // functionality for Azure PostgreSQL resources including servers, databases, firewall rules, VNET rules, security
 // alert policies, log files and configurations with new business model.
-type CheckNameAvailabilityClient struct {
+type VirtualNetworkSubnetUsageClient struct {
     BaseClient
 }
-// NewCheckNameAvailabilityClient creates an instance of the CheckNameAvailabilityClient client.
-func NewCheckNameAvailabilityClient(subscriptionID string) CheckNameAvailabilityClient {
-    return NewCheckNameAvailabilityClientWithBaseURI(DefaultBaseURI, subscriptionID)
+// NewVirtualNetworkSubnetUsageClient creates an instance of the VirtualNetworkSubnetUsageClient client.
+func NewVirtualNetworkSubnetUsageClient(subscriptionID string) VirtualNetworkSubnetUsageClient {
+    return NewVirtualNetworkSubnetUsageClientWithBaseURI(DefaultBaseURI, subscriptionID)
 }
 
-// NewCheckNameAvailabilityClientWithBaseURI creates an instance of the CheckNameAvailabilityClient client using a
-// custom endpoint.  Use this when interacting with an Azure cloud that uses a non-standard base URI (sovereign clouds,
-// Azure stack).
-    func NewCheckNameAvailabilityClientWithBaseURI(baseURI string, subscriptionID string) CheckNameAvailabilityClient {
-        return CheckNameAvailabilityClient{ NewWithBaseURI(baseURI, subscriptionID)}
+// NewVirtualNetworkSubnetUsageClientWithBaseURI creates an instance of the VirtualNetworkSubnetUsageClient client
+// using a custom endpoint.  Use this when interacting with an Azure cloud that uses a non-standard base URI (sovereign
+// clouds, Azure stack).
+    func NewVirtualNetworkSubnetUsageClientWithBaseURI(baseURI string, subscriptionID string) VirtualNetworkSubnetUsageClient {
+        return VirtualNetworkSubnetUsageClient{ NewWithBaseURI(baseURI, subscriptionID)}
     }
 
-// Execute check the availability of name for resource
+// Execute get virtual network subnet usage for a given vNet resource id.
     // Parameters:
-        // nameAvailabilityRequest - the required parameters for checking if resource name is available.
-func (client CheckNameAvailabilityClient) Execute(ctx context.Context, nameAvailabilityRequest NameAvailabilityRequest) (result NameAvailability, err error) {
+        // locationName - the name of the location.
+        // parameters - the required parameters for creating or updating a server.
+func (client VirtualNetworkSubnetUsageClient) Execute(ctx context.Context, locationName string, parameters VirtualNetworkSubnetUsageParameter) (result VirtualNetworkSubnetUsageResult, err error) {
     if tracing.IsEnabled() {
-        ctx = tracing.StartSpan(ctx, fqdn + "/CheckNameAvailabilityClient.Execute")
+        ctx = tracing.StartSpan(ctx, fqdn + "/VirtualNetworkSubnetUsageClient.Execute")
         defer func() {
             sc := -1
         if result.Response.Response != nil {
@@ -60,36 +61,35 @@ func (client CheckNameAvailabilityClient) Execute(ctx context.Context, nameAvail
     }
         if err := validation.Validate([]validation.Validation{
         { TargetValue: client.SubscriptionID,
-         Constraints: []validation.Constraint{	{Target: "client.SubscriptionID", Name: validation.MinLength, Rule: 1, Chain: nil }}},
-        { TargetValue: nameAvailabilityRequest,
-         Constraints: []validation.Constraint{	{Target: "nameAvailabilityRequest.Name", Name: validation.Null, Rule: true, Chain: nil }}}}); err != nil {
-        return result, validation.NewError("postgresqlflexibleservers.CheckNameAvailabilityClient", "Execute", err.Error())
+         Constraints: []validation.Constraint{	{Target: "client.SubscriptionID", Name: validation.MinLength, Rule: 1, Chain: nil }}}}); err != nil {
+        return result, validation.NewError("postgresqlflexibleservers.VirtualNetworkSubnetUsageClient", "Execute", err.Error())
         }
 
-        req, err := client.ExecutePreparer(ctx, nameAvailabilityRequest)
+        req, err := client.ExecutePreparer(ctx, locationName, parameters)
     if err != nil {
-    err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.CheckNameAvailabilityClient", "Execute", nil , "Failure preparing request")
+    err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.VirtualNetworkSubnetUsageClient", "Execute", nil , "Failure preparing request")
     return
     }
 
         resp, err := client.ExecuteSender(req)
         if err != nil {
         result.Response = autorest.Response{Response: resp}
-        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.CheckNameAvailabilityClient", "Execute", resp, "Failure sending request")
+        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.VirtualNetworkSubnetUsageClient", "Execute", resp, "Failure sending request")
         return
         }
 
         result, err = client.ExecuteResponder(resp)
         if err != nil {
-        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.CheckNameAvailabilityClient", "Execute", resp, "Failure responding to request")
+        err = autorest.NewErrorWithError(err, "postgresqlflexibleservers.VirtualNetworkSubnetUsageClient", "Execute", resp, "Failure responding to request")
         }
 
     return
 }
 
     // ExecutePreparer prepares the Execute request.
-    func (client CheckNameAvailabilityClient) ExecutePreparer(ctx context.Context, nameAvailabilityRequest NameAvailabilityRequest) (*http.Request, error) {
+    func (client VirtualNetworkSubnetUsageClient) ExecutePreparer(ctx context.Context, locationName string, parameters VirtualNetworkSubnetUsageParameter) (*http.Request, error) {
         pathParameters := map[string]interface{} {
+        "locationName": autorest.Encode("path",locationName),
         "subscriptionId": autorest.Encode("path",client.SubscriptionID),
         }
 
@@ -102,21 +102,21 @@ func (client CheckNameAvailabilityClient) Execute(ctx context.Context, nameAvail
 autorest.AsContentType("application/json; charset=utf-8"),
 autorest.AsPost(),
 autorest.WithBaseURL(client.BaseURI),
-autorest.WithPathParameters("/subscriptions/{subscriptionId}/providers/Microsoft.DBForPostgreSql/checkNameAvailability",pathParameters),
-autorest.WithJSON(nameAvailabilityRequest),
+autorest.WithPathParameters("/subscriptions/{subscriptionId}/providers/Microsoft.DBForPostgreSql/locations/{locationName}/checkVirtualNetworkSubnetUsage",pathParameters),
+autorest.WithJSON(parameters),
 autorest.WithQueryParameters(queryParameters))
     return preparer.Prepare((&http.Request{}).WithContext(ctx))
     }
 
     // ExecuteSender sends the Execute request. The method will close the
     // http.Response Body if it receives an error.
-    func (client CheckNameAvailabilityClient) ExecuteSender(req *http.Request) (*http.Response, error) {
+    func (client VirtualNetworkSubnetUsageClient) ExecuteSender(req *http.Request) (*http.Response, error) {
             return client.Send(req, azure.DoRetryWithRegistration(client.Client))
             }
 
     // ExecuteResponder handles the response to the Execute request. The method always
     // closes the http.Response Body.
-    func (client CheckNameAvailabilityClient) ExecuteResponder(resp *http.Response) (result NameAvailability, err error) {
+    func (client VirtualNetworkSubnetUsageClient) ExecuteResponder(resp *http.Response) (result VirtualNetworkSubnetUsageResult, err error) {
             err = autorest.Respond(
             resp,
             azure.WithErrorUnlessStatusCode(http.StatusOK),
